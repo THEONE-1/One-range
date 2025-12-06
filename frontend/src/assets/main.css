@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd3da;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #95a5a6;
+}
+
+/* Ant Design 自定义样式 */
+.ant-btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+}
+
+/* 代码块样式 - 保持格式 */
+.ant-typography code {
+  display: block !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+  padding: 16px !important;
+  background: #f6f8fa !important;
+  border-radius: 6px !important;
+  border: 1px solid #e1e4e8 !important;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  color: #24292e !important;
+  margin: 0 !important;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  tab-size: 4 !important;
+  text-align: left !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.ant-typography pre {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  overflow-x: auto !important;
+}
+
+.ant-typography pre code {
+  display: block !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+  padding: 16px !important;
+  background: #f6f8fa !important;
+  border-radius: 6px !important;
+  border: 1px solid #e1e4e8 !important;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  color: #24292e !important;
+  margin: 0 !important;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  tab-size: 4 !important;
+  text-align: left !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 代码块样式 */
+.code-block {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  overflow-x: auto !important;
+}
+
+.code-block code {
+  display: block !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+  padding: 16px !important;
+  background: #f6f8fa !important;
+  border-radius: 6px !important;
+  border: 1px solid #e1e4e8 !important;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  color: #24292e !important;
+  margin: 0 !important;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  tab-size: 4 !important;
+  text-align: left !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
