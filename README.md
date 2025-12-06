@@ -90,13 +90,12 @@ docker-compose down -v
 
 - **3000** - Vue前端
 - **8000** - Spring Boot后端API
-- **3306** - MySQL数据库
+- **3307** - MySQL数据库
 
 ## 文档
 
 - [快速开始](QUICKSTART.md) - 详细的快速开始指南
 - [部署文档](DEPLOY.md) - 完整的部署说明
-- [改造报告](改造完成报告.md) - 项目改造说明
 
 ## 免责声明
 
