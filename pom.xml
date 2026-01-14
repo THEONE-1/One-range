@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>one-range</artifactId>
+    <artifactId>one-range</artifactId>                                                                                              
     <version>2.0.0</version>
     <packaging>jar</packaging>
     <name>one-range</name>
@@ -28,23 +28,11 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
 
         <!-- actuator监控 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <!-- jolokia jmx监控 -->
-        <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-core</artifactId>
-            <version>1.6.0</version>
         </dependency>
 
         <dependency>
@@ -88,16 +76,6 @@
             <artifactId>jdbcrowsetimpl</artifactId>
             <version>1.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.transaction</groupId>
-            <artifactId>jta</artifactId>
-            <version>1.1</version>
-        </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
@@ -122,13 +100,6 @@
             <groupId>org.jdom</groupId>
             <artifactId>jdom2</artifactId>
             <version>2.0.6</version>
-        </dependency>
-
-        <!-- xmlbeam xxe -->
-        <dependency>
-            <groupId>org.xmlbeam</groupId>
-            <artifactId>xmlprojector</artifactId>
-            <version>1.4.14</version>
         </dependency>
 
 

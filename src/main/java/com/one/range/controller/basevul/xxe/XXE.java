@@ -15,7 +15,6 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Attributes;
-import org.xmlbeam.annotation.XBRead;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -92,24 +91,6 @@ public class XXE {
         } catch (Exception e) {
             return "错误: " + e.toString();
         }
-    }
-
-
-    @RequestMapping(value = "/xmlbeam")
-    public String handleCustomer(@RequestBody Customer customer) {
-        return String.format("%s:%s login success!", customer.getFirstname(), customer.getLastname());
-
-    }
-
-    /**
-     * 创建Customer接口
-     */
-    public interface Customer {
-        @XBRead("//username")
-        String getFirstname();
-
-        @XBRead("//password")
-        String getLastname();
     }
 
 

@@ -1,117 +1,61 @@
 <template>
   <div class="register-container">
-    <div class="register-box">
-      <div class="register-header">
-        <div class="logo">
-          <security-scan-outlined :style="{ fontSize: '48px', color: '#fff' }" />
-        </div>
-        <h1>用户注册</h1>
-        <p>One Security Range</p>
+    <!-- 左侧信息展示区 -->
+    <div class="left-panel">
+      <div class="matrix-bg"></div>
+      <div class="glow-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+        <div class="orb orb-5"></div>
       </div>
 
-      <a-form
-        :model="formState"
-        @finish="handleRegister"
-        class="register-form"
-      >
-        <a-form-item
-          name="username"
-          :rules="[
-            { required: true, message: '请输入用户名' },
-            { min: 3, max: 20, message: '用户名长度为3-20个字符' }
-          ]"
-        >
-          <a-input
-            v-model:value="formState.username"
-            size="large"
-            placeholder="用户名（3-20个字符）"
-          >
-            <template #prefix>
-              <user-outlined />
-            </template>
-          </a-input>
-        </a-form-item>
-
-        <a-form-item
-          name="password"
-          :rules="[
-            { required: true, message: '请输入密码' },
-            { min: 6, message: '密码至少6个字符' }
-          ]"
-        >
-          <a-input-password
-            v-model:value="formState.password"
-            size="large"
-            placeholder="密码（至少6个字符）"
-          >
-            <template #prefix>
-              <lock-outlined />
-            </template>
-          </a-input-password>
-        </a-form-item>
-
-        <a-form-item
-          name="confirmPassword"
-          :rules="[
-            { required: true, message: '请确认密码' },
-            { validator: validateConfirmPassword }
-          ]"
-        >
-          <a-input-password
-            v-model:value="formState.confirmPassword"
-            size="large"
-            placeholder="确认密码"
-          >
-            <template #prefix>
-              <lock-outlined />
-            </template>
-          </a-input-password>
-        </a-form-item>
-
-        <a-form-item
-          name="captcha"
-          :rules="[{ required: true, message: '请输入验证码' }]"
-        >
-          <div class="captcha-row">
-            <a-input
-              v-model:value="formState.captcha"
-              size="large"
-              placeholder="验证码"
-              style="flex: 1"
-            >
-              <template #prefix>
-                <safety-certificate-outlined />
-              </template>
-            </a-input>
-            <img
-              :src="captchaUrl"
-              @click="refreshCaptcha"
-              class="captcha-img"
-              alt="验证码"
-            />
+      <div class="panel-content">
+        <div class="brand-section">
+          <div class="brand-icon">
+            <security-scan-outlined :style="{ fontSize: '64px' }" />
           </div>
-        </a-form-item>
+          <h1 class="brand-title">One 安全靶场</h1>
+          <p class="brand-subtitle">ONE SECURITY RANGE</p>
+          <div class="brand-divider"></div>
+          <p class="brand-desc">开始您的安全学习之旅</p>
+        </div>
 
-        <a-form-item>
-          <a-button
-            type="primary"
-            html-type="submit"
-            size="large"
-            block
-            :loading="loading"
-          >
-            注 册
-          </a-button>
-        </a-form-item>
-
-        <a-form-item>
-          <div class="register-footer-links">
-            <a @click="goToLogin">已有账号？立即登录</a>
+        <div class="features-section">
+          <div class="feature-item">
+            <user-add-outlined class="feature-icon" />
+            <div class="feature-content">
+              <div class="feature-title">快速注册</div>
+              <div class="feature-desc">简单几步即可创建账户</div>
+            </div>
           </div>
-        </a-form-item>
-      </a-form>
+          <div class="feature-item">
+            <trophy-outlined class="feature-icon" />
+            <div class="feature-content">
+              <div class="feature-title">学习进度</div>
+              <div class="feature-desc">记录您的学习成果</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <rocket-outlined class="feature-icon" />
+            <div class="feature-content">
+              <div class="feature-title">实战演练</div>
+              <div class="feature-desc">26+真实漏洞场景</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="register-footer">
+    <!-- 右侧注册表单区 -->
+    <div class="right-panel">
+      <div class="register-box">
+        <div class="register-header">
+          <h2>创建新账户</h2>
+          <p>填写信息开始您的安全学习之旅</p>
+        </div>
+
         <a-alert
           v-if="errorMsg"
           :message="errorMsg"
@@ -119,11 +63,130 @@
           show-icon
           closable
           @close="errorMsg = ''"
+          style="margin-bottom: 24px"
         />
+
+        <a-form
+          :model="formState"
+          @finish="handleRegister"
+          class="register-form"
+        >
+          <a-form-item
+            name="username"
+            :rules="[
+              { required: true, message: '请输入用户名' },
+              { min: 3, max: 20, message: '用户名长度为3-20个字符' }
+            ]"
+          >
+            <a-input
+              v-model:value="formState.username"
+              size="large"
+              placeholder="请输入用户名（3-20个字符）"
+            >
+              <template #prefix>
+                <user-outlined class="input-icon" />
+              </template>
+            </a-input>
+          </a-form-item>
+
+          <a-form-item
+            name="password"
+            :rules="[
+              { required: true, message: '请输入密码' },
+              { min: 6, message: '密码至少6个字符' }
+            ]"
+          >
+            <a-input-password
+              v-model:value="formState.password"
+              size="large"
+              placeholder="请输入密码（至少6个字符）"
+            >
+              <template #prefix>
+                <lock-outlined class="input-icon" />
+              </template>
+            </a-input-password>
+          </a-form-item>
+
+          <a-form-item
+            name="confirmPassword"
+            :rules="[
+              { required: true, message: '请确认密码' },
+              { validator: validateConfirmPassword }
+            ]"
+          >
+            <a-input-password
+              v-model:value="formState.confirmPassword"
+              size="large"
+              placeholder="请再次输入密码"
+            >
+              <template #prefix>
+                <lock-outlined class="input-icon" />
+              </template>
+            </a-input-password>
+          </a-form-item>
+
+          <a-form-item
+            name="captcha"
+            :rules="[{ required: true, message: '请输入验证码' }]"
+          >
+            <div class="captcha-row">
+              <a-input
+                v-model:value="formState.captcha"
+                size="large"
+                placeholder="请输入验证码"
+                style="flex: 1"
+              >
+                <template #prefix>
+                  <safety-certificate-outlined class="input-icon" />
+                </template>
+              </a-input>
+              <div class="captcha-wrapper">
+                <img
+                  :src="captchaUrl"
+                  @click="refreshCaptcha"
+                  class="captcha-img"
+                  alt="验证码"
+                />
+                <div class="captcha-refresh" @click="refreshCaptcha">
+                  <reload-outlined />
+                </div>
+              </div>
+            </div>
+          </a-form-item>
+
+          <a-form-item>
+            <a-button
+              type="primary"
+              html-type="submit"
+              size="large"
+              block
+              :loading="loading"
+              class="register-btn"
+            >
+              <span v-if="!loading">注 册</span>
+              <span v-else>注册中...</span>
+            </a-button>
+          </a-form-item>
+
+          <div class="form-footer">
+            <a-divider style="margin: 16px 0">
+              <span style="color: #999; font-size: 12px">其他选项</span>
+            </a-divider>
+            <div class="footer-links">
+              <a @click="goToLogin" class="login-link">
+                <login-outlined />
+                <span>已有账号？立即登录</span>
+              </a>
+            </div>
+          </div>
+        </a-form>
+
+        <div class="security-notice">
+          <info-circle-outlined style="margin-right: 8px; color: #1890ff" />
+          <span>注册即表示您同意遵守平台使用规范</span>
+        </div>
       </div>
     </div>
-
-    <div class="particles" id="particles-js"></div>
   </div>
 </template>
 
@@ -135,7 +198,13 @@ import {
   UserOutlined,
   LockOutlined,
   SafetyCertificateOutlined,
-  SecurityScanOutlined
+  SecurityScanOutlined,
+  UserAddOutlined,
+  TrophyOutlined,
+  RocketOutlined,
+  ReloadOutlined,
+  LoginOutlined,
+  InfoCircleOutlined
 } from '@ant-design/icons-vue'
 import axios from 'axios'
 
@@ -217,34 +286,254 @@ const goToLogin = () => {
 </script>
 
 <style scoped>
+/* 主容器 */
 .register-container {
   width: 100%;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  position: relative;
+  background: #0a0e27;
   overflow: hidden;
 }
 
-.particles {
+/* 左侧面板 */
+.left-panel {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f1729 0%, #1a1f3a 50%, #0f1729 100%);
+  overflow: hidden;
+}
+
+/* 矩阵背景效果 */
+.matrix-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: matrix-move 20s linear infinite;
+}
+
+@keyframes matrix-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(50px);
+  }
+}
+
+/* 光晕闪烁效果 */
+.glow-orbs {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 0;
+  pointer-events: none;
 }
 
-.register-box {
-  width: 420px;
-  padding: 48px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+.orb {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(0, 212, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 0 20px 4px rgba(0, 212, 255, 0.6);
+  animation: pulse-orb 3s ease-in-out infinite;
+}
+
+.orb-1 {
+  top: 15%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  top: 45%;
+  left: 75%;
+  animation-delay: 0.8s;
+}
+
+.orb-3 {
+  top: 70%;
+  left: 30%;
+  animation-delay: 1.6s;
+}
+
+.orb-4 {
+  top: 25%;
+  left: 85%;
+  animation-delay: 2.4s;
+}
+
+.orb-5 {
+  top: 85%;
+  left: 65%;
+  animation-delay: 1.2s;
+}
+
+@keyframes pulse-orb {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+/* 面板内容 */
+.panel-content {
+  position: relative;
   z-index: 1;
-  backdrop-filter: blur(10px);
+  padding: 60px;
+  max-width: 600px;
+}
+
+/* 品牌区域 */
+.brand-section {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.brand-icon {
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  box-shadow:
+    0 0 40px rgba(0, 212, 255, 0.4),
+    0 0 80px rgba(0, 212, 255, 0.2),
+    inset 0 0 40px rgba(255, 255, 255, 0.1);
+  animation: pulse-glow 3s ease-in-out infinite;
+  color: #fff;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 40px rgba(0, 212, 255, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.2),
+      inset 0 0 40px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 60px rgba(0, 212, 255, 0.6),
+      0 0 120px rgba(0, 212, 255, 0.3),
+      inset 0 0 60px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.brand-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 10px 0;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  letter-spacing: 2px;
+}
+
+.brand-subtitle {
+  font-size: 16px;
+  color: #00d4ff;
+  letter-spacing: 4px;
+  margin: 0 0 20px 0;
+  font-weight: 500;
+}
+
+.brand-divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+  margin: 20px auto;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.brand-desc {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* 特性区域 */
+.features-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: rgba(0, 212, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.3);
+  transform: translateX(10px);
+}
+
+.feature-icon {
+  font-size: 32px;
+  color: #00d4ff;
+  flex-shrink: 0;
+}
+
+.feature-content {
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.feature-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 右侧面板 */
+.right-panel {
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 41, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 2;
+  border-left: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* 注册框 */
+.register-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
 }
 
 .register-header {
@@ -252,36 +541,27 @@ const goToLogin = () => {
   margin-bottom: 40px;
 }
 
-.logo {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 20px;
-  background: linear-gradient(135deg, #3A7BD5 0%, #5B9FE3 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 24px rgba(58, 123, 213, 0.4);
-}
-
-.register-header h1 {
-  margin: 0;
-  font-size: 32px;
+.register-header h2 {
+  font-size: 28px;
   font-weight: 600;
-  color: #2c3e50;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #fff;
+  margin: 0 0 10px 0;
+  text-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
 }
 
 .register-header p {
-  margin: 8px 0 0;
-  color: #95a5a6;
   font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
 }
 
+/* 表单样式 */
 .register-form {
   margin-top: 24px;
+}
+
+.input-icon {
+  color: #00d4ff;
 }
 
 .captcha-row {
@@ -290,57 +570,170 @@ const goToLogin = () => {
   align-items: center;
 }
 
+.captcha-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .captcha-img {
   width: 120px;
   height: 40px;
   cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s;
+  display: block;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .captcha-img:hover {
-  border-color: #40a9ff;
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  border-color: #00d4ff;
 }
 
-.register-footer {
-  margin-top: 16px;
-}
-
-.register-footer-links {
-  text-align: center;
-}
-
-.register-footer-links a {
-  color: #667eea;
-  text-decoration: none;
-  font-size: 14px;
+.captcha-refresh {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
   transition: all 0.3s;
 }
 
-.register-footer-links a:hover {
-  color: #764ba2;
+.captcha-wrapper:hover .captcha-refresh {
+  opacity: 1;
+}
+
+.captcha-refresh:hover {
+  background: rgba(0, 212, 255, 0.8);
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+/* 注册按钮 */
+.register-btn {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+  transition: all 0.3s;
+}
+
+.register-btn:hover {
+  background: linear-gradient(135deg, #00bbff 0%, #0088ff 100%);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.register-btn:active {
+  transform: translateY(0);
+}
+
+/* 表单底部 */
+.form-footer {
+  margin-top: 24px;
+}
+
+.footer-links {
+  text-align: center;
+}
+
+.login-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #00d4ff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  color: #0099ff;
   text-decoration: underline;
 }
 
-:deep(.ant-btn-primary) {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  font-weight: 600;
-  height: 48px;
-  font-size: 16px;
-}
-
-:deep(.ant-btn-primary:hover) {
-  background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
-}
-
-:deep(.ant-input-affix-wrapper) {
+/* 安全提示 */
+.security-notice {
+  margin-top: 30px;
+  padding: 12px 16px;
+  background: rgba(24, 144, 255, 0.1);
+  border: 1px solid rgba(24, 144, 255, 0.3);
   border-radius: 8px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
 }
 
-:deep(.ant-input) {
+/* 输入框样式优化 */
+:deep(.ant-input-affix-wrapper),
+:deep(.ant-input),
+:deep(.ant-input-password) {
   border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  transition: all 0.3s;
+}
+
+:deep(.ant-input::placeholder) {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+:deep(.ant-input-affix-wrapper:focus),
+:deep(.ant-input-affix-wrapper-focused),
+:deep(.ant-input:focus),
+:deep(.ant-input-password:focus) {
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.05);
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+}
+
+:deep(.ant-input-affix-wrapper:hover),
+:deep(.ant-input:hover) {
+  border-color: rgba(0, 212, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+:deep(.ant-input-password-icon) {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+:deep(.ant-input-password-icon:hover) {
+  color: #00d4ff;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .left-panel {
+    display: none;
+  }
+
+  .right-panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .register-box {
+    padding: 30px 20px;
+  }
+
+  .register-header h2 {
+    font-size: 24px;
+  }
 }
 </style>
