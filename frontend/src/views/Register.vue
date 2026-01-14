@@ -1,27 +1,30 @@
 <template>
-  <div class="login-container">
-    <div class="login-box">
-      <div class="login-header">
+  <div class="register-container">
+    <div class="register-box">
+      <div class="register-header">
         <div class="logo">
           <security-scan-outlined :style="{ fontSize: '48px', color: '#fff' }" />
         </div>
-        <h1>One 安全靶场</h1>
+        <h1>用户注册</h1>
         <p>One Security Range</p>
       </div>
-      
+
       <a-form
         :model="formState"
-        @finish="handleLogin"
-        class="login-form"
+        @finish="handleRegister"
+        class="register-form"
       >
         <a-form-item
           name="username"
-          :rules="[{ required: true, message: '请输入用户名' }]"
+          :rules="[
+            { required: true, message: '请输入用户名' },
+            { min: 3, max: 20, message: '用户名长度为3-20个字符' }
+          ]"
         >
           <a-input
             v-model:value="formState.username"
             size="large"
-            placeholder="用户名"
+            placeholder="用户名（3-20个字符）"
           >
             <template #prefix>
               <user-outlined />
@@ -31,12 +34,33 @@
 
         <a-form-item
           name="password"
-          :rules="[{ required: true, message: '请输入密码' }]"
+          :rules="[
+            { required: true, message: '请输入密码' },
+            { min: 6, message: '密码至少6个字符' }
+          ]"
         >
           <a-input-password
             v-model:value="formState.password"
             size="large"
-            placeholder="密码"
+            placeholder="密码（至少6个字符）"
+          >
+            <template #prefix>
+              <lock-outlined />
+            </template>
+          </a-input-password>
+        </a-form-item>
+
+        <a-form-item
+          name="confirmPassword"
+          :rules="[
+            { required: true, message: '请确认密码' },
+            { validator: validateConfirmPassword }
+          ]"
+        >
+          <a-input-password
+            v-model:value="formState.confirmPassword"
+            size="large"
+            placeholder="确认密码"
           >
             <template #prefix>
               <lock-outlined />
@@ -59,9 +83,9 @@
                 <safety-certificate-outlined />
               </template>
             </a-input>
-            <img 
-              :src="captchaUrl" 
-              @click="refreshCaptcha" 
+            <img
+              :src="captchaUrl"
+              @click="refreshCaptcha"
               class="captcha-img"
               alt="验证码"
             />
@@ -76,18 +100,18 @@
             block
             :loading="loading"
           >
-            登 录
+            注 册
           </a-button>
         </a-form-item>
 
         <a-form-item>
-          <div class="login-footer-links">
-            <a @click="goToRegister">还没有账号？立即注册</a>
+          <div class="register-footer-links">
+            <a @click="goToLogin">已有账号？立即登录</a>
           </div>
         </a-form-item>
       </a-form>
 
-      <div class="login-footer">
+      <div class="register-footer">
         <a-alert
           v-if="errorMsg"
           :message="errorMsg"
@@ -104,7 +128,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -123,6 +147,7 @@ const captchaUrl = ref('/captcha?t=' + Date.now())
 const formState = reactive({
   username: '',
   password: '',
+  confirmPassword: '',
   captcha: ''
 })
 
@@ -130,7 +155,14 @@ const refreshCaptcha = () => {
   captchaUrl.value = '/captcha?t=' + Date.now()
 }
 
-const handleLogin = async (values) => {
+const validateConfirmPassword = (rule, value) => {
+  if (value && value !== formState.password) {
+    return Promise.reject('两次密码输入不一致')
+  }
+  return Promise.resolve()
+}
+
+const handleRegister = async (values) => {
   loading.value = true
   errorMsg.value = ''
 
@@ -138,9 +170,10 @@ const handleLogin = async (values) => {
     const params = new URLSearchParams()
     params.append('username', formState.username)
     params.append('password', formState.password)
+    params.append('confirmPassword', formState.confirmPassword)
     params.append('captcha', formState.captcha)
 
-    const response = await axios.post('/admin/login', params, {
+    const response = await axios.post('/admin/register', params, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
@@ -152,9 +185,8 @@ const handleLogin = async (values) => {
       try {
         result = JSON.parse(result)
       } catch {
-        // 如果不是JSON,检查是否包含成功标识
         if (result.includes('成功') || result.includes('success')) {
-          result = { success: true }
+          result = { success: true, message: '注册成功' }
         } else {
           result = { success: false, message: result }
         }
@@ -162,33 +194,30 @@ const handleLogin = async (values) => {
     }
 
     if (result.success === true || result.success === 'true') {
-      localStorage.setItem('username', formState.username)
-      message.success('登录成功')
-      router.push('/home')
+      message.success(result.message || '注册成功，请登录')
+      setTimeout(() => {
+        router.push('/login')
+      }, 1500)
     } else {
-      errorMsg.value = result.message || '登录失败，请检查用户名、密码和验证码'
+      errorMsg.value = result.message || '注册失败，请重试'
       refreshCaptcha()
     }
   } catch (error) {
-    console.error('登录错误:', error)
-    errorMsg.value = error.response?.data?.message || error.response?.data || '登录失败，请重试'
+    console.error('注册错误:', error)
+    errorMsg.value = error.response?.data?.message || error.response?.data || '注册失败，请重试'
     refreshCaptcha()
   } finally {
     loading.value = false
   }
 }
 
-const goToRegister = () => {
-  router.push('/register')
+const goToLogin = () => {
+  router.push('/login')
 }
-
-onMounted(() => {
-  // 初始化粒子背景（可选）
-})
 </script>
 
 <style scoped>
-.login-container {
+.register-container {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -208,7 +237,7 @@ onMounted(() => {
   z-index: 0;
 }
 
-.login-box {
+.register-box {
   width: 420px;
   padding: 48px;
   background: rgba(255, 255, 255, 0.95);
@@ -218,7 +247,7 @@ onMounted(() => {
   backdrop-filter: blur(10px);
 }
 
-.login-header {
+.register-header {
   text-align: center;
   margin-bottom: 40px;
 }
@@ -235,7 +264,7 @@ onMounted(() => {
   box-shadow: 0 8px 24px rgba(58, 123, 213, 0.4);
 }
 
-.login-header h1 {
+.register-header h1 {
   margin: 0;
   font-size: 32px;
   font-weight: 600;
@@ -245,13 +274,13 @@ onMounted(() => {
   -webkit-text-fill-color: transparent;
 }
 
-.login-header p {
+.register-header p {
   margin: 8px 0 0;
   color: #95a5a6;
   font-size: 14px;
 }
 
-.login-form {
+.register-form {
   margin-top: 24px;
 }
 
@@ -275,23 +304,22 @@ onMounted(() => {
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
-.login-footer {
+.register-footer {
   margin-top: 16px;
 }
 
-.login-footer-links {
+.register-footer-links {
   text-align: center;
 }
 
-.login-footer-links a {
+.register-footer-links a {
   color: #667eea;
   text-decoration: none;
   font-size: 14px;
   transition: all 0.3s;
-  cursor: pointer;
 }
 
-.login-footer-links a:hover {
+.register-footer-links a:hover {
   color: #764ba2;
   text-decoration: underline;
 }
@@ -316,5 +344,3 @@ onMounted(() => {
   border-radius: 8px;
 }
 </style>
-
-

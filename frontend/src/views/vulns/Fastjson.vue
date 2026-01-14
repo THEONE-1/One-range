@@ -4,6 +4,7 @@
     subtitle="Fastjson Deserialization"
     level="严重"
     :icon="ApiOutlined"
+    moduleKey="fastjson"
   >
     <template #description>
       <a-typography-paragraph>

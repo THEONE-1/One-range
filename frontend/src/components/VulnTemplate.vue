@@ -10,7 +10,18 @@
           <h1 class="header-title">{{ title }}</h1>
           <p class="header-subtitle">{{ subtitle }}</p>
         </div>
-        <a-tag :color="levelColor" class="level-tag">{{ level }}</a-tag>
+        <div class="header-actions">
+          <a-tag :color="levelColor" class="level-tag">{{ level }}</a-tag>
+          <a-button
+            :type="isCompleted ? 'default' : 'primary'"
+            :icon="isCompleted ? h(CheckCircleOutlined) : h(CheckOutlined)"
+            @click="handleMarkComplete"
+            :loading="markLoading"
+            class="complete-btn"
+          >
+            {{ isCompleted ? '已完成' : '标记完成' }}
+          </a-button>
+        </div>
       </div>
     </div>
 
@@ -132,15 +143,19 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, h } from 'vue'
+import { message } from 'ant-design-vue'
 import {
   BookOutlined,
   BugOutlined,
   ExperimentOutlined,
   CodeOutlined,
   ToolOutlined,
-  BulbOutlined
+  BulbOutlined,
+  CheckOutlined,
+  CheckCircleOutlined
 } from '@ant-design/icons-vue'
+import axios from 'axios'
 
 const props = defineProps({
   title: String,
@@ -149,11 +164,17 @@ const props = defineProps({
     type: String,
     default: '高危'
   },
-  icon: Object
+  icon: Object,
+  moduleKey: {
+    type: String,
+    required: true
+  }
 })
 
 const activeKeys = ref([])
 const hintKeys = ref([])
+const isCompleted = ref(false)
+const markLoading = ref(false)
 
 const levelColor = computed(() => {
   const colors = {
@@ -163,6 +184,71 @@ const levelColor = computed(() => {
     '低危': 'blue'
   }
   return colors[props.level] || 'default'
+})
+
+const checkModuleCompleted = async () => {
+  try {
+    const response = await axios.get('/api/progress/check', {
+      params: { vulnModule: props.moduleKey }
+    })
+    let result = response.data
+    if (typeof result === 'string') {
+      result = JSON.parse(result)
+    }
+
+    console.log(`[${props.moduleKey}] 检查完成状态:`, result)
+
+    if (result.success) {
+      isCompleted.value = result.completed || false
+      console.log(`[${props.moduleKey}] 完成状态:`, isCompleted.value)
+    }
+  } catch (error) {
+    console.error('检查完成状态失败:', error)
+  }
+}
+
+const handleMarkComplete = async () => {
+  if (isCompleted.value) {
+    message.info('该模块已标记为完成')
+    return
+  }
+
+  markLoading.value = true
+  try {
+    const params = new URLSearchParams()
+    params.append('vulnModule', props.moduleKey)
+
+    console.log(`[${props.moduleKey}] 标记完成请求:`, props.moduleKey)
+
+    const response = await axios.post('/api/progress/complete', params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+
+    let result = response.data
+    if (typeof result === 'string') {
+      result = JSON.parse(result)
+    }
+
+    console.log(`[${props.moduleKey}] 标记完成响应:`, result)
+
+    if (result.success) {
+      isCompleted.value = true
+      message.success('已标记为完成！')
+    } else {
+      message.error(result.message || '标记失败')
+    }
+  } catch (error) {
+    console.error('标记完成失败:', error)
+    message.error('标记失败，请重试')
+  } finally {
+    markLoading.value = false
+  }
+}
+
+onMounted(() => {
+  checkModuleCompleted()
 })
 </script>
 
@@ -217,6 +303,26 @@ const levelColor = computed(() => {
 
 .header-text {
   flex: 1;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.complete-btn {
+  height: 40px;
+  padding: 0 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.complete-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .header-title {

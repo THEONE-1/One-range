@@ -4,6 +4,7 @@
     subtitle="Server-Side Request Forgery"
     level="高危"
     :icon="GlobalOutlined"
+    moduleKey="ssrf"
   >
     <template #description>
       <a-typography-paragraph>

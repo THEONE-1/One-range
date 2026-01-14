@@ -4,6 +4,7 @@
     subtitle="Unauthorized Access"
     level="中危"
     :icon="UnlockOutlined"
+    moduleKey="unauth"
   >
     <template #description>
       <a-typography-paragraph>

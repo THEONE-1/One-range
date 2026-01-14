@@ -24,6 +24,16 @@
             <span>首页</span>
           </a-menu-item>
 
+          <a-menu-item key="/progress">
+            <trophy-outlined />
+            <span>学习进度</span>
+          </a-menu-item>
+
+          <a-menu-item key="/users" v-if="isAdmin">
+            <team-outlined />
+            <span>用户管理</span>
+          </a-menu-item>
+
           <a-sub-menu key="basic">
             <template #icon><bug-outlined /></template>
             <template #title>基础漏洞</template>
@@ -41,18 +51,12 @@
               <a-menu-item key="/sqli/jdbc_error_based">报错注入</a-menu-item>
               <a-menu-item key="/sqli/jdbc_blind_time_based">时间盲注</a-menu-item>
               <a-menu-item key="/sqli/jdbc_blind_bool_based">布尔盲注</a-menu-item>
-              <!-- <a-menu-item key="/sqli/mybatis_like">MyBatis LIKE</a-menu-item> -->
-              <!-- <a-menu-item key="/sqli/mybatis_orderby">MyBatis ORDER BY</a-menu-item> -->
-              <!-- <a-menu-item key="/sqli/mybatis_in">MyBatis IN</a-menu-item> -->
             </a-sub-menu>
 
             <a-sub-menu key="rce">
               <template #title>远程代码执行</template>
               <a-menu-item key="/rce/runtime">Runtime</a-menu-item>
               <a-menu-item key="/rce/processbuilder">ProcessBuilder</a-menu-item>
-              <!-- <a-menu-item key="/rce/processimpl">ProcessImpl</a-menu-item> -->
-              <!-- <a-menu-item key="/rce/loadjs">JavaScript引擎</a-menu-item> -->
-              <!-- <a-menu-item key="/rce/groovy">Groovy</a-menu-item> -->
             </a-sub-menu>
 
             <a-sub-menu key="file">
@@ -65,20 +69,9 @@
               <template #title>XXE</template>
               <a-menu-item key="/xxe/xmlreader">XMLReader</a-menu-item>
               <a-menu-item key="/xxe/saxreader">SAXReader</a-menu-item>
-              <!-- <a-menu-item key="/xxe/saxbuilder">SAXBuilder</a-menu-item> -->
-              <a-menu-item key="/xxe/documentbuilder">DocumentBuilder</a-menu-item>
-              <!-- <a-menu-item key="/xxe/unmarshaller">Unmarshaller</a-menu-item> -->
+              <a-menu-item key="/xxe/saxbuilder">SAXBuilder</a-menu-item>
             </a-sub-menu>
 
-            <!-- SSTI - 已禁用 -->
-            <!-- <a-sub-menu key="ssti">
-              <template #title>SSTI</template>
-              <a-menu-item key="/ssti/thymeleaf">Thymeleaf</a-menu-item>
-              <a-menu-item key="/ssti/noreturn">无回显</a-menu-item>
-            </a-sub-menu> -->
-
-            <!-- SpEL - 已禁用 -->
-            <!-- <a-menu-item key="/spel">SpEL注入</a-menu-item> -->
             <a-menu-item key="/ssrf">SSRF</a-menu-item>
             <a-menu-item key="/xff">XFF伪造</a-menu-item>
             <a-menu-item key="/cors">CORS</a-menu-item>
@@ -90,25 +83,16 @@
             <template #icon><appstore-outlined /></template>
             <template #title>组件漏洞</template>
             <a-menu-item key="/fastjson">Fastjson</a-menu-item>
-            <!-- <a-menu-item key="/jackson">Jackson</a-menu-item> -->
+            <a-menu-item key="/jackson">Jackson</a-menu-item>
             <a-menu-item key="/shiro">Shiro</a-menu-item>
             <a-menu-item key="/log4j">Log4j</a-menu-item>
-            <!-- <a-menu-item key="/xstream">XStream</a-menu-item> -->
-            
-            <!-- <a-sub-menu key="actuators">
-              <template #title>Actuator</template>
-              <a-menu-item key="/actuators/index">Spring Boot</a-menu-item>
-              <a-menu-item key="/actuators/jolokialogback">Jolokia</a-menu-item>
-            </a-sub-menu> -->
+            <a-menu-item key="/actuators/index">Actuators</a-menu-item>
           </a-sub-menu>
 
           <a-sub-menu key="deserialize">
             <template #icon><code-outlined /></template>
             <template #title>反序列化</template>
             <a-menu-item key="/deserialize/readobject">ReadObject</a-menu-item>
-            <!-- <a-menu-item key="/deserialize/rmi">RMI</a-menu-item> -->
-            <!-- <a-menu-item key="/deserialize/xmldecoder">XMLDecoder</a-menu-item> -->
-            <!-- <a-menu-item key="/deserialize/yaml">SnakeYaml</a-menu-item> -->
           </a-sub-menu>
         </a-menu>
       </div>
@@ -148,13 +132,13 @@
     </a-layout-content>
 
     <a-layout-footer class="layout-footer">
-      One 安全靶场 v2.0.0 © 2025 | 仅供学习研究使用
+      One 安全靶场 v2.0.0 © 2026 | 仅供学习研究使用
     </a-layout-footer>
   </a-layout>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -165,7 +149,9 @@ import {
   UserOutlined,
   LogoutOutlined,
   ReloadOutlined,
-  SecurityScanOutlined
+  SecurityScanOutlined,
+  TrophyOutlined,
+  TeamOutlined
 } from '@ant-design/icons-vue'
 import axios from 'axios'
 
@@ -173,6 +159,22 @@ const router = useRouter()
 const route = useRoute()
 const selectedKeys = ref([route.path])
 const username = computed(() => localStorage.getItem('username') || 'Admin')
+const isAdmin = ref(false)
+
+// 检查用户是否是管理员
+const checkAdminRole = async () => {
+  try {
+    const response = await axios.get('/admin/users')
+    let result = response.data
+    if (typeof result === 'string') {
+      result = JSON.parse(result)
+    }
+    // 如果能成功获取用户列表，说明是管理员
+    isAdmin.value = result.success === true
+  } catch (error) {
+    isAdmin.value = false
+  }
+}
 
 watch(() => route.path, (newPath) => {
   selectedKeys.value = [newPath]
@@ -197,6 +199,10 @@ const handleLogout = async () => {
     router.push('/login')
   }
 }
+
+onMounted(() => {
+  checkAdminRole()
+})
 </script>
 
 <style scoped>

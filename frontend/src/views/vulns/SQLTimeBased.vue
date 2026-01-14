@@ -4,6 +4,7 @@
     subtitle="SQL Injection - Time Based Blind"
     level="高危"
     :icon="DatabaseOutlined"
+    moduleKey="sql_time"
   >
     <template #description>
       <a-typography-paragraph>

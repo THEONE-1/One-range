@@ -35,4 +35,25 @@ public class AdminServiceImpl implements AdminService {
     public ArrayList<Admin> getAllInfo() {
         return this.adminDao.getAllInfo();
     }
+
+    @Override
+    public int register(String username, String password) {
+        return adminDao.register(username, password);
+    }
+
+    @Override
+    public boolean checkUsernameExists(String username) {
+        return adminDao.checkUsernameExists(username) > 0;
+    }
+
+    @Override
+    public Admin getInfoById(Integer id) {
+        return adminDao.getInfoById(id);
+    }
+
+    @Override
+    public int deleteUser(Integer id) {
+        return adminDao.deleteUser(id);
+    }
 }
+

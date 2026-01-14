@@ -3,34 +3,17 @@ package com.one.range.model;
 import java.io.Serializable;
 
 public class Admin implements Serializable {
-    String id;
+    Integer id;
     String username;
     String password;
-
-    public String getPerms() {
-        return perms;
-    }
-
-    public void setPerms(String perms) {
-        this.perms = perms;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     String perms;
     String role;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,6 +33,22 @@ public class Admin implements Serializable {
         this.password = password;
     }
 
+    public String getPerms() {
+        return perms;
+    }
+
+    public void setPerms(String perms) {
+        this.perms = perms;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "用户ID: " + id + "<br/>" +
@@ -57,3 +56,4 @@ public class Admin implements Serializable {
                 "用户密码: " + password + "<br/>";
     }
 }
+

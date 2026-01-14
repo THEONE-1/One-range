@@ -4,6 +4,7 @@
     subtitle="Cross-Site Scripting - Reflected Type"
     level="高危"
     :icon="BugOutlined"
+    moduleKey="xss_reflect"
   >
     <template #description>
       <a-typography-paragraph>

@@ -4,6 +4,7 @@
     subtitle="File Download"
     level="中危"
     :icon="CloudDownloadOutlined"
+    moduleKey="file_download"
   >
     <template #description>
       <a-typography-paragraph>

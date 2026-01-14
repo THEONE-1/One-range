@@ -4,6 +4,7 @@
     subtitle="Shiro Deserialization RCE"
     level="严重"
     :icon="SafetyOutlined"
+    moduleKey="shiro"
   >
     <template #description>
       <a-typography-paragraph>

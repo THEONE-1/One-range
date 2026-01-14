@@ -12,4 +12,24 @@ public interface AdminService {
      Admin getInfoByUserName(String username);
 
      ArrayList<Admin> getAllInfo();
+
+     /**
+      * 用户注册
+      */
+     int register(String username, String password);
+
+     /**
+      * 检查用户名是否存在
+      */
+     boolean checkUsernameExists(String username);
+
+     /**
+      * 根据ID获取用户信息
+      */
+     Admin getInfoById(Integer id);
+
+     /**
+      * 删除用户
+      */
+     int deleteUser(Integer id);
 }

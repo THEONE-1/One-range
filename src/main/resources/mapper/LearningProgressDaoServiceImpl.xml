@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.one.range.dao.LearningProgressDao">
+
+    <resultMap id="LearningProgressResultMap" type="com.one.range.model.LearningProgress">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="vuln_module" property="vulnModule"/>
+        <result column="completed" property="completed"/>
+        <result column="completed_at" property="completedAt"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <!-- 保存或更新学习进度 -->
+    <insert id="saveOrUpdate" parameterType="com.one.range.model.LearningProgress">
+        INSERT INTO learning_progress (user_id, vuln_module, completed, completed_at, created_at)
+        VALUES (#{userId}, #{vulnModule}, #{completed}, #{completedAt}, NOW())
+        ON DUPLICATE KEY UPDATE
+            completed = #{completed},
+            completed_at = #{completedAt}
+    </insert>
+
+    <!-- 获取用户的所有学习进度 -->
+    <select id="getProgressByUserId" resultMap="LearningProgressResultMap">
+        SELECT * FROM learning_progress
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 获取用户某个模块的学习进度 -->
+    <select id="getProgressByUserIdAndModule" resultMap="LearningProgressResultMap">
+        SELECT * FROM learning_progress
+        WHERE user_id = #{userId} AND vuln_module = #{vulnModule}
+    </select>
+
+    <!-- 获取用户已完成的模块数量 -->
+    <select id="getCompletedCount" resultType="int">
+        SELECT COUNT(*) FROM learning_progress
+        WHERE user_id = #{userId} AND completed = 1
+    </select>
+
+    <!-- 标记模块为已完成 -->
+    <update id="markAsCompleted">
+        INSERT INTO learning_progress (user_id, vuln_module, completed, completed_at, created_at)
+        VALUES (#{userId}, #{vulnModule}, 1, NOW(), NOW())
+        ON DUPLICATE KEY UPDATE
+            completed = 1,
+            completed_at = NOW()
+    </update>
+
+</mapper>

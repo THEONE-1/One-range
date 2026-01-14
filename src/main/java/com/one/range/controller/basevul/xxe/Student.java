@@ -1,16 +1,12 @@
 package com.one.range.controller.basevul.xxe;
 
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+/**
+ * Student 实体类，用于 XXE Unmarshaller 漏洞演示
+ */
+@XmlRootElement(name = "student")
 public class Student {
-    @XmlElement(name = "name")
     private String name;
 
     public String getName() {
@@ -23,6 +19,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student [name=" + name + "]";
+        return "Student{name='" + name + "'}";
     }
 }

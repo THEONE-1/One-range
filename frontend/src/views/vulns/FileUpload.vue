@@ -4,6 +4,7 @@
     subtitle="File Upload"
     level="中危"
     :icon="CloudUploadOutlined"
+    moduleKey="file_upload"
   >
     <template #description>
       <a-typography-paragraph>

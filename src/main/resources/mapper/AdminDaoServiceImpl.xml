@@ -34,4 +34,33 @@
         set password=#{newPWD,jdbcType=VARCHAR}
         where username=#{username,jdbcType=VARCHAR}
     </update>
+
+    <!-- 用户注册 -->
+    <insert id="register">
+        INSERT INTO
+        <include refid="base_table" />
+        (username, password, role)
+        VALUES (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 'user')
+    </insert>
+
+    <!-- 检查用户名是否存在 -->
+    <select id="checkUsernameExists" resultType="int">
+        SELECT COUNT(*) FROM
+        <include refid="base_table" />
+        WHERE username=#{username,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据ID获取用户信息 -->
+    <select id="getInfoById" resultType="com.one.range.model.Admin">
+        SELECT * FROM
+        <include refid="base_table" />
+        WHERE id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 删除用户 -->
+    <delete id="deleteUser">
+        DELETE FROM
+        <include refid="base_table" />
+        WHERE id=#{id,jdbcType=INTEGER}
+    </delete>
 </mapper>

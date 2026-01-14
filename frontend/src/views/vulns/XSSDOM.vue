@@ -4,6 +4,7 @@
     subtitle="Cross-Site Scripting - DOM Type"
     level="高危"
     :icon="BugOutlined"
+    moduleKey="xss_dom"
   >
     <template #description>
       <a-typography-paragraph>

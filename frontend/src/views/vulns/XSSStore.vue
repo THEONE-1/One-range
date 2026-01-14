@@ -4,6 +4,7 @@
     subtitle="Cross-Site Scripting - Stored Type"
     level="高危"
     :icon="BugOutlined"
+    moduleKey="xss_store"
   >
     <template #description>
       <a-typography-paragraph>

@@ -4,6 +4,7 @@
     subtitle="SQL Injection - Integer Based (JDBC)"
     level="高危"
     :icon="DatabaseOutlined"
+    moduleKey="sql_int"
   >
     <template #description>
       <a-typography-paragraph>

@@ -4,6 +4,7 @@
     subtitle="Log4Shell Vulnerability"
     level="严重"
     :icon="FileProtectOutlined"
+    moduleKey="log4j"
   >
     <template #description>
       <a-typography-paragraph>

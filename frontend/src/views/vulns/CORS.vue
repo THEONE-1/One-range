@@ -4,6 +4,7 @@
     subtitle="Cross-Origin Resource Sharing"
     level="中危"
     :icon="ShareAltOutlined"
+    moduleKey="cors"
   >
     <template #description>
       <a-typography-paragraph>

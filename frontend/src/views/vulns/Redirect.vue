@@ -4,6 +4,7 @@
     subtitle="URL Redirection"
     level="中危"
     :icon="LinkOutlined"
+    moduleKey="redirect"
   >
     <template #description>
       <a-typography-paragraph>

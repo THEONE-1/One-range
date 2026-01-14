@@ -9,6 +9,11 @@ const router = createRouter({
       component: () => import('@/views/Login.vue')
     },
     {
+      path: '/register',
+      name: 'Register',
+      component: () => import('@/views/Register.vue')
+    },
+    {
       path: '/',
       name: 'Layout',
       component: () => import('@/views/Layout.vue'),
@@ -18,6 +23,16 @@ const router = createRouter({
           path: '/home',
           name: 'Home',
           component: () => import('@/views/Home.vue')
+        },
+        {
+          path: '/progress',
+          name: 'Progress',
+          component: () => import('@/views/Progress.vue')
+        },
+        {
+          path: '/users',
+          name: 'UserManagement',
+          component: () => import('@/views/UserManagement.vue')
         },
         // XSS
         {
@@ -51,25 +66,10 @@ const router = createRouter({
           name: 'SQLTimeBased',
           component: () => import('@/views/vulns/SQLTimeBased.vue')
         },
-        // {
-        //   path: '/sqli/mybatis_like',
-        //   name: 'MyBatisLike',
-        //   component: () => import('@/views/vulns/MyBatisLike.vue')
-        // },
         {
           path: '/sqli/jdbc_blind_bool_based',
           name: 'SQLBoolBased',
           component: () => import('@/views/vulns/SQLBoolBased.vue')
-        },
-        {
-          path: '/sqli/mybatis_orderby',
-          name: 'MyBatisOrderBy',
-          component: () => import('@/views/vulns/MyBatisOrderBy.vue')
-        },
-        {
-          path: '/sqli/mybatis_in',
-          name: 'MyBatisIn',
-          component: () => import('@/views/vulns/MyBatisIn.vue')
         },
         // RCE
         {
@@ -81,21 +81,6 @@ const router = createRouter({
           path: '/rce/processbuilder',
           name: 'RCEProcessBuilder',
           component: () => import('@/views/vulns/RCEProcessBuilder.vue')
-        },
-        {
-          path: '/rce/processimpl',
-          name: 'RCEProcessImpl',
-          component: () => import('@/views/vulns/RCEProcessImpl.vue')
-        },
-        {
-          path: '/rce/loadjs',
-          name: 'RCELoadJs',
-          component: () => import('@/views/vulns/RCELoadJs.vue')
-        },
-        {
-          path: '/rce/groovy',
-          name: 'RCEGroovy',
-          component: () => import('@/views/vulns/RCEGroovy.vue')
         },
         // 文件操作
         {
@@ -124,34 +109,7 @@ const router = createRouter({
           name: 'XXESAXBuilder',
           component: () => import('@/views/vulns/XXESAXBuilder.vue')
         },
-        {
-          path: '/xxe/documentbuilder',
-          name: 'XXEDocumentBuilder',
-          component: () => import('@/views/vulns/XXEDocumentBuilder.vue')
-        },
-        {
-          path: '/xxe/unmarshaller',
-          name: 'XXEUnmarshaller',
-          component: () => import('@/views/vulns/XXEUnmarshaller.vue')
-        },
-        // SSTI - 已禁用
-        // {
-        //   path: '/ssti/thymeleaf',
-        //   name: 'SSTIThymeleaf',
-        //   component: () => import('@/views/vulns/SSTIThymeleaf.vue')
-        // },
-        // {
-        //   path: '/ssti/noreturn',
-        //   name: 'SSTINoReturn',
-        //   component: () => import('@/views/vulns/SSTINoReturn.vue')
-        // },
         // 其他
-        // SpEL - 已禁用
-        // {
-        //   path: '/spel',
-        //   name: 'SpEL',
-        //   component: () => import('@/views/vulns/SpEL.vue')
-        // },
         {
           path: '/ssrf',
           name: 'SSRF',
@@ -199,40 +157,15 @@ const router = createRouter({
           component: () => import('@/views/vulns/Log4j.vue')
         },
         {
-          path: '/xstream',
-          name: 'XStream',
-          component: () => import('@/views/vulns/XStream.vue')
-        },
-        {
           path: '/actuators/index',
           name: 'Actuators',
           component: () => import('@/views/vulns/Actuators.vue')
-        },
-        {
-          path: '/actuators/jolokialogback',
-          name: 'Jolokia',
-          component: () => import('@/views/vulns/Jolokia.vue')
         },
         // 反序列化
         {
           path: '/deserialize/readobject',
           name: 'ReadObject',
           component: () => import('@/views/vulns/ReadObject.vue')
-        },
-        {
-          path: '/deserialize/rmi',
-          name: 'RMI',
-          component: () => import('@/views/vulns/RMI.vue')
-        },
-        {
-          path: '/deserialize/xmldecoder',
-          name: 'XMLDecoder',
-          component: () => import('@/views/vulns/XMLDecoder.vue')
-        },
-        {
-          path: '/deserialize/yaml',
-          name: 'YAML',
-          component: () => import('@/views/vulns/YAML.vue')
         }
       ]
     }
@@ -242,9 +175,9 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('username')
-  if (to.path !== '/login' && !token) {
+  if (to.path !== '/login' && to.path !== '/register' && !token) {
     next('/login')
-  } else if (to.path === '/login' && token) {
+  } else if ((to.path === '/login' || to.path === '/register') && token) {
     next('/home')
   } else {
     next()

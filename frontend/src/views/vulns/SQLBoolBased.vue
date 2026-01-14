@@ -4,6 +4,7 @@
     subtitle="Boolean Based SQL Injection"
     level="高危"
     :icon="DatabaseOutlined"
+    moduleKey="sql_bool"
   >
     <template #description>
       <a-typography-paragraph>

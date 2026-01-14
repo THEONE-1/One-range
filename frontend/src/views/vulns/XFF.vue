@@ -4,6 +4,7 @@
     subtitle="HTTP Header Forgery"
     level="低危"
     :icon="SwapOutlined"
+    moduleKey="xff"
   >
     <template #description>
       <a-typography-paragraph>

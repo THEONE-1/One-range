@@ -4,6 +4,7 @@
     subtitle="Jackson Deserialization"
     level="严重"
     :icon="ApiOutlined"
+    moduleKey="jackson"
   >
     <template #description>
       <a-typography-paragraph>

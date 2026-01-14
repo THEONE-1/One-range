@@ -4,6 +4,7 @@
     subtitle="SQL Injection - Error Based (JDBC)"
     level="高危"
     :icon="DatabaseOutlined"
+    moduleKey="sql_error"
   >
     <template #description>
       <a-typography-paragraph>

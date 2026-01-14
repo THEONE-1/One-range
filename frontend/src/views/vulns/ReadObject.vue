@@ -4,6 +4,7 @@
     subtitle="Java Deserialization"
     level="严重"
     :icon="BlockOutlined"
+    moduleKey="readobject"
   >
     <template #description>
       <a-typography-paragraph>

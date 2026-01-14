@@ -11,15 +11,22 @@ ARG BUILD_TARGET=backend
 # ==========================================
 FROM docker.1ms.run/library/maven:3.8-openjdk-8-slim AS backend-builder
 
-
 WORKDIR /app
+
+# 先复制依赖配置文件和 Maven wrapper
 COPY pom.xml .
-COPY src ./src
 COPY mvnw .
 COPY mvnw.cmd .
 COPY .mvn ./.mvn
 
-RUN mvn clean package -DskipTests
+# 下载依赖（利用 Docker 层缓存，只有 pom.xml 变化时才重新下载）
+RUN mvn dependency:go-offline -B || true
+
+# 再复制源代码
+COPY src ./src
+
+# 编译打包（跳过测试编译和执行，加快构建速度）
+RUN mvn clean package -Dmaven.test.skip=true
 
 # ==========================================
 # 前端构建阶段
