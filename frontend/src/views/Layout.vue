@@ -113,6 +113,9 @@
                   <user-outlined /> {{ username }}
                 </a-menu-item>
                 <a-menu-divider />
+                <a-menu-item @click="openPasswordModal">
+                  修改密码
+                </a-menu-item>
                 <a-menu-item @click="handleLogout">
                   <logout-outlined /> 退出登录
                 </a-menu-item>
@@ -134,11 +137,45 @@
     <a-layout-footer class="layout-footer">
       One 安全靶场 v2.0.0 © 2026 | 仅供学习研究使用
     </a-layout-footer>
+
+    <a-modal
+      v-model:open="passwordModalVisible"
+      title="修改密码"
+      ok-text="确认修改"
+      cancel-text="取消"
+      :confirm-loading="passwordSubmitting"
+      @ok="handleChangePassword"
+      @cancel="resetPasswordForm"
+    >
+      <a-form layout="vertical">
+        <a-form-item label="当前密码" required>
+          <a-input-password
+            v-model:value="passwordForm.old_password"
+            placeholder="请输入当前密码"
+            autocomplete="current-password"
+          />
+        </a-form-item>
+        <a-form-item label="新密码" required>
+          <a-input-password
+            v-model:value="passwordForm.new_password"
+            placeholder="请输入新密码"
+            autocomplete="new-password"
+          />
+        </a-form-item>
+        <a-form-item label="确认新密码" required>
+          <a-input-password
+            v-model:value="passwordForm.again_password"
+            placeholder="请再次输入新密码"
+            autocomplete="new-password"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </a-layout>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -160,6 +197,13 @@ const route = useRoute()
 const selectedKeys = ref([route.path])
 const username = computed(() => localStorage.getItem('username') || 'Admin')
 const isAdmin = ref(false)
+const passwordModalVisible = ref(false)
+const passwordSubmitting = ref(false)
+const passwordForm = reactive({
+  old_password: '',
+  new_password: '',
+  again_password: ''
+})
 
 // 检查用户是否是管理员
 const checkAdminRole = async () => {
@@ -186,6 +230,71 @@ const handleMenuClick = ({ key }) => {
 
 const handleRefresh = () => {
   window.location.reload()
+}
+
+const resetPasswordForm = () => {
+  passwordForm.old_password = ''
+  passwordForm.new_password = ''
+  passwordForm.again_password = ''
+  passwordModalVisible.value = false
+}
+
+const openPasswordModal = () => {
+  resetPasswordForm()
+  passwordModalVisible.value = true
+}
+
+const handleChangePassword = async () => {
+  if (!passwordForm.old_password || !passwordForm.new_password || !passwordForm.again_password) {
+    message.error('请完整填写密码信息')
+    return
+  }
+
+  if (passwordForm.old_password === passwordForm.new_password) {
+    message.error('新密码不能与旧密码一致')
+    return
+  }
+
+  if (passwordForm.new_password !== passwordForm.again_password) {
+    message.error('两次输入的新密码不一致')
+    return
+  }
+
+  passwordSubmitting.value = true
+  try {
+    const response = await axios.post('/admin/chpwd', {
+      old_password: passwordForm.old_password,
+      new_password: passwordForm.new_password,
+      again_password: passwordForm.again_password
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    let result = response.data
+    if (typeof result === 'string') {
+      try {
+        result = JSON.parse(result)
+      } catch {
+        result = { success: false, message: result }
+      }
+    }
+
+    if (result.success) {
+      message.success(result.message || '密码修改成功，请重新登录')
+      resetPasswordForm()
+      localStorage.removeItem('username')
+      router.push('/login')
+    } else {
+      message.error(result.message || '密码修改失败')
+    }
+  } catch (error) {
+    console.error('修改密码失败:', error)
+    message.error(error.response?.data?.message || error.response?.data || '修改密码失败，请稍后重试')
+  } finally {
+    passwordSubmitting.value = false
+  }
 }
 
 const handleLogout = async () => {

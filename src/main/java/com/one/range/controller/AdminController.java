@@ -66,25 +66,31 @@ public class AdminController {
         String new_password = map.get("new_password");
         String again_password = map.get("again_password");
         String username = (String) session.getAttribute("username");
+        if (username == null || username.trim().isEmpty()) {
+            return "{\"success\":false,\"message\":\"请先登录\"}";
+        }
         if (old_password == null || new_password == null || again_password == null) {
-            return "输入不能为空!";
+            return "{\"success\":false,\"message\":\"输入不能为空\"}";
+        }
+        if (old_password.trim().isEmpty() || new_password.trim().isEmpty() || again_password.trim().isEmpty()) {
+            return "{\"success\":false,\"message\":\"输入不能为空\"}";
         }
         if (old_password.equals(new_password)) {
-            return "新密码不能与旧密码一致!";
+            return "{\"success\":false,\"message\":\"新密码不能与旧密码一致\"}";
         }
         if (!new_password.equals(again_password)) {
-            return "新密码两次输入不一致!";
+            return "{\"success\":false,\"message\":\"新密码两次输入不一致\"}";
         }
         Admin admin = adminService.login(username, old_password);
         if (admin != null) {
             if (adminService.updatePWD(username, new_password) != 0) {
                 session.invalidate();
-                return "密码修改成功!";
+                return "{\"success\":true,\"message\":\"密码修改成功，请重新登录\"}";
             } else {
-                return "密码修改失败!";
+                return "{\"success\":false,\"message\":\"密码修改失败\"}";
             }
         } else {
-            return "旧密码输入错误!";
+            return "{\"success\":false,\"message\":\"旧密码输入错误\"}";
         }
     }
 
