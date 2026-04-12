@@ -1,7 +1,7 @@
 <template>
   <vuln-template
-    title="服务器监控面板 - Runtime.exec()"
-    subtitle="Remote Code Execution via Runtime"
+    title="服务器监控面板 - 运行时执行"
+    subtitle="运行时命令执行"
     level="严重"
     :icon="DashboardOutlined"
     moduleKey="rce_runtime"

@@ -1,7 +1,7 @@
 <template>
   <vuln-template
-    title="电子发票导入系统 - XMLReader"
-    subtitle="XML External Entity Injection"
+    title="电子发票导入系统 - XML 读取器"
+    subtitle="外部实体注入"
     level="高危"
     :icon="FileTextOutlined"
     moduleKey="xxe_xmlreader"

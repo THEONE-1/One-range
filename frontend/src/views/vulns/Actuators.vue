@@ -1,14 +1,14 @@
 <template>
   <vuln-template
-    title="Spring Boot Actuator"
-    subtitle="Information Disclosure"
+    title="执行端点信息泄露"
+    subtitle="执行端点暴露"
     level="中危"
     :icon="DashboardOutlined"
     moduleKey="actuators"
   >
     <template #description>
       <a-typography-paragraph>
-        <strong>Spring Boot Actuator</strong>提供了生产就绪的功能，用于监控和管理应用程序。
+        <strong>执行端点组件</strong> 提供了应用监控与管理能力，用于暴露健康检查、环境信息和运行状态等端点。
       </a-typography-paragraph>
       <a-typography-paragraph>
         Actuator信息泄露的危害：

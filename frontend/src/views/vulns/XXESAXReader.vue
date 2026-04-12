@@ -1,7 +1,7 @@
 <template>
   <vuln-template
-    title="应用配置管理系统 - SAXReader"
-    subtitle="XML External Entity Injection"
+    title="应用配置管理系统 - SAX 读取器"
+    subtitle="外部实体注入"
     level="高危"
     :icon="SettingOutlined"
     moduleKey="xxe_saxreader"

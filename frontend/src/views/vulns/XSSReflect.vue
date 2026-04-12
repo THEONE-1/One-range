@@ -1,14 +1,14 @@
 <template>
   <vuln-template
     title="反射型 XSS 漏洞"
-    subtitle="Cross-Site Scripting - Reflected Type"
+    subtitle="反射型脚本注入"
     level="高危"
     :icon="BugOutlined"
     moduleKey="xss_reflect"
   >
     <template #description>
       <a-typography-paragraph>
-        <strong>XSS (Cross-Site Scripting)</strong> 跨站脚本攻击是一种代码注入攻击，攻击者通过在目标网站注入恶意脚本，使其在用户浏览器中执行。
+        <strong>跨站脚本攻击</strong> 是一种代码注入攻击，攻击者通过在目标网站注入恶意脚本，使其在用户浏览器中执行。
       </a-typography-paragraph>
       <a-typography-paragraph>
         反射型XSS的特点：
@@ -44,18 +44,16 @@
 
     <template #test-form>
       <!-- 模拟真实搜索页面 -->
-      <div style="background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
-        <h3 style="margin-bottom: 16px; color: #1890ff;">🔍 网站搜索</h3>
-        <a-form :model="formState" @finish="handleSubmit" layout="inline" style="width: 100%">
+      <div class="lab-surface">
+        <h3 class="lab-surface-title lab-surface-title--accent">网站搜索</h3>
+        <a-form :model="formState" @finish="handleSubmit" layout="inline" class="lab-inline-form">
           <a-form-item
             name="content"
-            style="flex: 1; margin-right: 8px;"
           >
             <a-input
               v-model:value="formState.content"
               placeholder="请输入搜索关键词..."
               size="large"
-              style="width: 100%;"
             />
           </a-form-item>
           <a-form-item>
@@ -68,11 +66,11 @@
       </div>
       
       <!-- 显示搜索结果 -->
-      <div v-if="result" style="background: #f5f5f5; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
-        <h4 style="margin-bottom: 12px;">搜索结果</h4>
-        <p style="color: #666; margin-bottom: 8px;">您搜索的关键词是：</p>
-        <div style="background: #fff; padding: 16px; border-radius: 4px; border-left: 4px solid #1890ff;" v-html="result" ref="xssResult"></div>
-        <p style="color: #999; margin-top: 12px; font-size: 12px;">共找到 0 条相关结果</p>
+      <div v-if="result" class="lab-surface lab-surface-muted">
+        <h4 class="lab-surface-title">搜索结果</h4>
+        <p class="lab-label">您搜索的关键词是</p>
+        <div class="lab-result-box lab-result-box--accent" v-html="result" ref="xssResult"></div>
+        <p class="lab-caption">共找到 0 条相关结果</p>
       </div>
     </template>
 

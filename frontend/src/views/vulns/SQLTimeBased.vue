@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="SQL注入 - 时间盲注"
-    subtitle="SQL Injection - Time Based Blind"
+    subtitle="时间盲注"
     level="高危"
     :icon="DatabaseOutlined"
     moduleKey="sql_time"
@@ -51,19 +51,17 @@
 
     <template #test-form>
       <!-- 模拟真实用户查询页面 -->
-      <div style="background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
-        <h3 style="margin-bottom: 16px; color: #1890ff;">👤 用户信息查询</h3>
-        <a-form :model="formState" @finish="handleSubmit" layout="inline" style="width: 100%">
+      <div class="lab-surface">
+        <h3 class="lab-surface-title lab-surface-title--accent">用户信息查询</h3>
+        <a-form :model="formState" @finish="handleSubmit" layout="inline" class="lab-inline-form">
           <a-form-item
             name="id"
             :rules="[{ required: true, message: '请输入用户ID' }]"
-            style="flex: 1; margin-right: 8px;"
           >
             <a-input
               v-model:value="formState.id"
               placeholder="请输入用户ID（如：1）"
               size="large"
-              style="width: 100%;"
             />
           </a-form-item>
           <a-form-item>
@@ -76,10 +74,10 @@
       </div>
       
       <!-- 显示查询结果 -->
-      <div v-if="result" style="background: #f5f5f5; padding: 24px; border-radius: 8px;">
-        <h4 style="margin-bottom: 16px;">📊 查询结果</h4>
-        <div style="background: #fff; padding: 16px; border-radius: 4px;">
-          <pre style="margin: 0; color: #1890ff; white-space: pre-wrap;">{{ result }}</pre>
+      <div v-if="result" class="lab-surface lab-surface-muted">
+        <h4 class="lab-surface-title">查询结果</h4>
+        <div class="lab-result-box">
+          <pre>{{ result }}</pre>
         </div>
         <a-alert
           v-if="responseTime > 3000"

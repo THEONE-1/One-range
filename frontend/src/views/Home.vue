@@ -1,126 +1,156 @@
 <template>
-  <div class="home-container fade-in">
-    <a-row :gutter="[24, 24]">
-      <!-- 欢迎Banner -->
-      <a-col :span="24">
-        <div class="welcome-banner">
-          <div class="banner-background"></div>
-          <div class="banner-content">
-            <div class="banner-icon">
-              <security-scan-outlined />
+  <div class="dashboard-page fade-in">
+    <section class="dashboard-grid">
+      <article class="panel hero-panel">
+        <div class="panel-glow"></div>
+        <div class="hero-copy">
+          <div class="hero-heading">
+            <h1>One 安全靶场</h1>
+          </div>
+
+          <div class="hero-actions">
+            <a-button type="primary" size="large" @click="goTo('/xss/reflect')">
+              进入热门实验
+            </a-button>
+            <a-button size="large" @click="goTo('/progress')">
+              查看学习进度
+            </a-button>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="metric-card" v-for="metric in heroMetrics" :key="metric.label">
+            <div class="metric-value">{{ metric.value }}</div>
+            <div class="metric-label">{{ metric.label }}</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel telemetry-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="panel-kicker">实验态势</span>
+            <h2>实验态势</h2>
+          </div>
+          <span class="panel-chip">在线</span>
+        </div>
+
+        <div class="telemetry-list">
+          <div class="telemetry-item" v-for="item in telemetryItems" :key="item.label">
+            <div class="telemetry-icon">
+              <component :is="item.icon" />
             </div>
-            <div class="banner-text">
-              <h1 class="banner-title">欢迎来到 One 安全靶场</h1>
-              <p class="banner-subtitle">专业的Java Web安全漏洞学习与实战平台</p>
-              <div class="banner-stats">
-                <div class="stat-item">
-                  <div class="stat-number">25</div>
-                  <div class="stat-label">漏洞场景</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                  <div class="stat-number">6</div>
-                  <div class="stat-label">组件漏洞</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                  <div class="stat-number">100%</div>
-                  <div class="stat-label">真实环境</div>
-                </div>
+            <div class="telemetry-body">
+              <div class="telemetry-top">
+                <span>{{ item.label }}</span>
+                <strong>{{ item.value }}</strong>
+              </div>
+              <p>{{ item.description }}</p>
+              <div class="signal-bar">
+                <span :style="{ width: item.ratio }"></span>
               </div>
             </div>
           </div>
-          <div class="banner-alert">
-            <exclamation-circle-outlined style="margin-right: 8px;" />
-            本平台仅供安全学习和研究使用，请勿用于非法用途
-          </div>
         </div>
-      </a-col>
+      </article>
 
-      <!-- 快捷入口 -->
-      <a-col :span="24">
-        <div class="section-header">
-          <h2>
-            <fire-outlined style="color: #ff4d4f; margin-right: 8px;" />
-            热门漏洞快速入口
-          </h2>
-          <p>选择一个漏洞类型开始你的安全学习之旅</p>
+      <article class="panel modules-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="panel-kicker">漏洞矩阵</span>
+            <h2>漏洞模块矩阵</h2>
+          </div>
+          <span class="panel-note">单色线性图标 / 霓虹青交互</span>
         </div>
-        <a-row :gutter="[16, 16]">
-          <a-col :xs="12" :sm="8" :md="6" :lg="4" v-for="(item, index) in quickLinks" :key="item.key">
-            <div class="quick-link-card slide-in-left" :style="{ animationDelay: `${index * 0.05}s` }" @click="router.push(item.path)">
-              <div class="quick-link-icon" :style="{ background: item.gradient }">
-                <component :is="item.icon" />
+
+        <div class="module-grid">
+          <button
+            v-for="module in modules"
+            :key="module.title"
+            class="module-card"
+            type="button"
+            @click="goTo(module.path)"
+          >
+            <div class="module-top">
+              <div class="module-icon">
+                <component :is="module.icon" />
               </div>
-              <div class="quick-link-title">{{ item.title }}</div>
-              <div class="quick-link-badge" :class="getBadgeClass(item.badge)">{{ item.badge }}</div>
+              <span class="risk-pill" :class="getRiskClass(module.risk)">{{ module.risk }}</span>
             </div>
-          </a-col>
-        </a-row>
-      </a-col>
-
-      <!-- 漏洞类型统计卡片 -->
-      <a-col :xs="24" :sm="8" v-for="(stat, index) in vulnStats" :key="stat.name">
-        <div class="stat-card slide-in-right" :style="{ borderTopColor: stat.color, animationDelay: `${index * 0.1}s` }">
-          <div class="stat-card-icon" :style="{ background: stat.gradient }">
-            <component :is="stat.icon" />
-          </div>
-          <div class="stat-card-info">
-            <div class="stat-card-count">{{ stat.count }}</div>
-            <div class="stat-card-label">{{ stat.name }}</div>
-          </div>
-          <div class="stat-card-badge">
-            <arrow-right-outlined />
-          </div>
-        </div>
-      </a-col>
-
-      <!-- 功能特性 -->
-      <a-col :span="24">
-        <div class="section-header">
-          <h2>
-            <star-outlined style="color: #faad14; margin-right: 8px;" />
-            平台特性
-          </h2>
-          <p>涵盖主流Web安全漏洞和Java组件安全</p>
-        </div>
-        <a-row :gutter="[16, 16]">
-          <a-col :xs="24" :md="8" v-for="(feature, index) in features" :key="feature.title">
-            <div class="feature-card fade-in" :style="{ animationDelay: `${index * 0.15}s` }">
-              <div class="feature-icon" :style="{ background: feature.gradient }">
-                <component :is="feature.icon" />
-              </div>
-              <h3 class="feature-title">{{ feature.title }}</h3>
-              <ul class="feature-list">
-                <li v-for="item in feature.items" :key="item">
-                  <check-circle-outlined style="color: #52c41a; margin-right: 8px;" />
-                  {{ item }}
-                </li>
-              </ul>
+            <div class="module-title">{{ module.title }}</div>
+            <div class="module-desc">{{ module.description }}</div>
+            <div class="module-meta">
+              <span>{{ module.count }}</span>
+              <span>{{ module.pathLabel }}</span>
             </div>
-          </a-col>
-        </a-row>
-      </a-col>
-
-      <!-- 系统信息 -->
-      <a-col :span="24">
-        <div class="info-card">
-          <a-row :gutter="16">
-            <a-col :xs="24" :sm="12" :md="6" v-for="(info, index) in systemInfo" :key="info.label">
-              <div class="info-item fade-in" :style="{ animationDelay: `${index * 0.1}s` }">
-                <div class="info-icon">
-                  <component :is="info.icon" />
-                </div>
-                <div class="info-content">
-                  <div class="info-label">{{ info.label }}</div>
-                  <div class="info-value">{{ info.value }}</div>
-                </div>
-              </div>
-            </a-col>
-          </a-row>
+          </button>
         </div>
-      </a-col>
-    </a-row>
+      </article>
+
+      <article class="panel path-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="panel-kicker">学习路径</span>
+            <h2>进阶路线</h2>
+          </div>
+        </div>
+
+        <div class="path-list">
+          <div class="path-item" v-for="lane in learningLanes" :key="lane.title">
+            <div class="path-index">{{ lane.step }}</div>
+            <div class="path-content">
+              <strong>{{ lane.title }}</strong>
+              <p>{{ lane.description }}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel stream-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="panel-kicker">学习维度</span>
+            <h2>学习维度</h2>
+          </div>
+        </div>
+
+        <div class="stream-list">
+          <div class="stream-card" v-for="stream in streams" :key="stream.title">
+            <component :is="stream.icon" class="stream-icon" />
+            <div class="stream-text">
+              <strong>{{ stream.title }}</strong>
+              <p>{{ stream.description }}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel command-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="panel-kicker">平台信号</span>
+            <h2>平台信号</h2>
+          </div>
+        </div>
+
+        <div class="signal-list">
+          <div class="signal-item" v-for="info in systemSignals" :key="info.label">
+            <span>{{ info.label }}</span>
+            <strong>{{ info.value }}</strong>
+          </div>
+        </div>
+
+        <div class="command-footer">
+          <div class="footer-alert">
+            <exclamation-circle-outlined />
+            <span>仅供安全学习与研究，请勿用于非法用途。</span>
+          </div>
+          <a-button block @click="goTo('/fastjson')">
+            打开组件漏洞专区
+          </a-button>
+        </div>
+      </article>
+    </section>
   </div>
 </template>
 
@@ -128,569 +158,636 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import {
-  SecurityScanOutlined,
   ExclamationCircleOutlined,
-  FireOutlined,
-  StarOutlined,
-  CheckCircleOutlined,
   BugOutlined,
-  AppstoreOutlined,
-  CodeOutlined,
   DatabaseOutlined,
   ThunderboltOutlined,
-  CloudUploadOutlined,
   FileTextOutlined,
   GlobalOutlined,
-  SafetyOutlined,
-  UserOutlined,
-  RocketOutlined,
-  CloudServerOutlined,
   ApiOutlined,
-  ArrowRightOutlined
+  SafetyOutlined,
+  CodeOutlined,
+  RadarChartOutlined,
+  RocketOutlined,
+  CheckCircleOutlined,
+  NodeIndexOutlined,
+  EyeOutlined,
+  DeploymentUnitOutlined,
+  PartitionOutlined
 } from '@ant-design/icons-vue'
 
 const router = useRouter()
-const username = computed(() => localStorage.getItem('username') || 'Admin')
 
-const getBadgeClass = (badge) => {
-  const badgeMap = {
-    '严重': 'badge-critical',
-    '高危': 'badge-high',
-    '中危': 'badge-medium',
-    '低危': 'badge-low'
-  }
-  return badgeMap[badge] || 'badge-default'
+const goTo = (path) => {
+  router.push(path)
 }
 
-const quickLinks = [
-  { key: '1', title: 'XSS', path: '/xss/reflect', icon: BugOutlined, gradient: 'linear-gradient(135deg, #f5222d 0%, #ff7875 100%)', badge: '高危' },
-  { key: '2', title: 'SQL注入', path: '/sqli/jdbc_int_based', icon: DatabaseOutlined, gradient: 'linear-gradient(135deg, #fa541c 0%, #ff9c6e 100%)', badge: '高危' },
-  { key: '3', title: 'RCE', path: '/rce/runtime', icon: ThunderboltOutlined, gradient: 'linear-gradient(135deg, #fa8c16 0%, #ffc53d 100%)', badge: '严重' },
-  { key: '4', title: '文件上传', path: '/file/upload', icon: CloudUploadOutlined, gradient: 'linear-gradient(135deg, #faad14 0%, #ffd666 100%)', badge: '中危' },
-  { key: '5', title: 'XXE', path: '/xxe/xmlreader', icon: FileTextOutlined, gradient: 'linear-gradient(135deg, #52c41a 0%, #95de64 100%)', badge: '高危' },
-  { key: '6', title: 'SSRF', path: '/ssrf', icon: GlobalOutlined, gradient: 'linear-gradient(135deg, #13c2c2 0%, #5cdbd3 100%)', badge: '高危' },
-  { key: '7', title: 'Fastjson', path: '/fastjson', icon: ApiOutlined, gradient: 'linear-gradient(135deg, #1890ff 0%, #69c0ff 100%)', badge: '严重' },
-  { key: '8', title: 'Shiro', path: '/shiro', icon: SafetyOutlined, gradient: 'linear-gradient(135deg, #2f54eb 0%, #85a5ff 100%)', badge: '严重' }
+const getRiskClass = (risk) => {
+  const riskMap = {
+    '严重': 'risk-critical',
+    '高危': 'risk-high',
+    '中危': 'risk-medium'
+  }
+  return riskMap[risk] || 'risk-default'
+}
+
+const heroMetrics = [
+  { label: '漏洞模块', value: '26+' },
+  { label: '真实链路', value: '100%' },
+  { label: '重点场景', value: '8' },
+  { label: '学习状态', value: '同步中' }
 ]
 
-const vulnStats = [
-  { name: '基础漏洞', count: 19, icon: BugOutlined, color: '#f5222d', gradient: 'linear-gradient(135deg, #f5222d 0%, #ff7875 100%)' },
-  { name: '组件漏洞', count: 6, icon: AppstoreOutlined, color: '#fa8c16', gradient: 'linear-gradient(135deg, #fa8c16 0%, #ffc53d 100%)' },
-  { name: '反序列化', count: 1, icon: CodeOutlined, color: '#1890ff', gradient: 'linear-gradient(135deg, #1890ff 0%, #69c0ff 100%)' }
-]
-
-const features = [
+const telemetryItems = [
   {
-    title: '基础Web漏洞',
-    icon: BugOutlined,
-    gradient: 'linear-gradient(135deg, #f5222d 0%, #ff7875 100%)',
-    items: ['XSS跨站脚本', 'SQL注入攻击', '远程代码执行', 'XXE/SSRF/CORS']
+    label: '基础漏洞覆盖',
+    value: '19 模块',
+    ratio: '84%',
+    description: '从输入校验到执行链路，覆盖常见 Web 攻击面。',
+    icon: RadarChartOutlined
   },
   {
-    title: 'Java组件漏洞',
-    icon: AppstoreOutlined,
-    gradient: 'linear-gradient(135deg, #fa8c16 0%, #ffc53d 100%)',
-    items: ['Fastjson RCE', 'Shiro反序列化', 'Log4j漏洞', 'Actuator信息泄露']
+    label: '组件漏洞实验',
+    value: '6 模块',
+    ratio: '68%',
+    description: '聚焦 Fastjson、Shiro、Log4j 与 Jackson 等典型场景。',
+    icon: DeploymentUnitOutlined
   },
   {
-    title: 'Java安全技术',
-    icon: CodeOutlined,
-    gradient: 'linear-gradient(135deg, #1890ff 0%, #69c0ff 100%)',
-    items: ['Java反序列化', 'Jackson漏洞', 'Jolokia漏洞', '文件上传下载']
+    label: '实验可视状态',
+    value: '实时联动',
+    ratio: '92%',
+    description: '首页入口、详情页模板与学习进度页共享统一视觉风格。',
+    icon: EyeOutlined
   }
 ]
 
-const systemInfo = [
-  { label: '靶场版本', value: 'v2.0.0', icon: RocketOutlined },
-  { label: '前端框架', value: 'Vue 3', icon: CodeOutlined },
-  { label: '后端框架', value: 'Spring Boot', icon: CloudServerOutlined },
-  { label: '当前用户', value: username.value, icon: UserOutlined }
+const modules = [
+  {
+    title: 'XSS',
+    description: '从反射型到 DOM 型，观察输入到渲染的攻击通路。',
+    count: '3 个场景',
+    risk: '高危',
+    path: '/xss/reflect',
+    pathLabel: '前端注入',
+    icon: BugOutlined
+  },
+  {
+    title: 'SQL 注入',
+    description: '整型、报错与盲注路线完整串联数据库攻击面。',
+    count: '4 个场景',
+    risk: '高危',
+    path: '/sqli/jdbc_int_based',
+    pathLabel: '数据层攻击',
+    icon: DatabaseOutlined
+  },
+  {
+    title: 'RCE',
+    description: '通过 Runtime 与 ProcessBuilder 理解命令执行风险。',
+    count: '2 个场景',
+    risk: '严重',
+    path: '/rce/runtime',
+    pathLabel: '执行链路',
+    icon: ThunderboltOutlined
+  },
+  {
+    title: 'XXE',
+    description: 'XMLReader、SAXReader 与 SAXBuilder 多解析器对照。',
+    count: '3 个场景',
+    risk: '高危',
+    path: '/xxe/xmlreader',
+    pathLabel: '解析器攻击',
+    icon: FileTextOutlined
+  },
+  {
+    title: 'SSRF',
+    description: '围绕服务端请求转发构造内部资产探测路径。',
+    count: '1 个场景',
+    risk: '高危',
+    path: '/ssrf',
+    pathLabel: '网络边界',
+    icon: GlobalOutlined
+  },
+  {
+    title: 'Fastjson',
+    description: '典型组件反序列化链路，适合作为高阶入口模块。',
+    count: '1 个场景',
+    risk: '严重',
+    path: '/fastjson',
+    pathLabel: '组件利用',
+    icon: ApiOutlined
+  },
+  {
+    title: 'Shiro',
+    description: '认证授权组件中的反序列化与配置误用风险。',
+    count: '1 个场景',
+    risk: '严重',
+    path: '/shiro',
+    pathLabel: '认证体系',
+    icon: SafetyOutlined
+  },
+  {
+    title: '反序列化',
+    description: '基于 ReadObject 理解对象边界与危险方法触发。',
+    count: '1 个场景',
+    risk: '中危',
+    path: '/deserialize/readobject',
+    pathLabel: '对象边界',
+    icon: CodeOutlined
+  }
 ]
+
+const learningLanes = [
+  { step: '01', title: '基础认知', description: '先从 XSS、SQL 注入和文件操作理解输入与边界。' },
+  { step: '02', title: '利用构造', description: '切换到 XXE、SSRF、RCE，建立完整攻击链视角。' },
+  { step: '03', title: '组件进阶', description: '进入 Fastjson、Shiro、Log4j 等 Java 生态漏洞模块。' },
+  { step: '04', title: '复盘与修复', description: '回到源码、修复建议与学习进度，形成闭环。' }
+]
+
+const streams = [
+  {
+    title: '真实漏洞模块',
+    description: '按攻击面拆分实验入口，避免大而散的教程堆叠。',
+    icon: NodeIndexOutlined
+  },
+  {
+    title: '统一详情模板',
+    description: '测试、结果、原理、Payload 与修复建议在同一工作台收拢。',
+    icon: CheckCircleOutlined
+  },
+  {
+    title: '结构化导航',
+    description: '基础漏洞、组件漏洞、反序列化三条主线保持清晰分层。',
+    icon: PartitionOutlined
+  }
+]
+
+const systemSignals = computed(() => [
+  { label: '当前用户', value: localStorage.getItem('username') || 'Admin' },
+  { label: '前端框架', value: 'Vue 3 + Vite' },
+  { label: '后端框架', value: 'Spring Boot' },
+  { label: '实验版本', value: 'v2.0.0' },
+  { label: '运行模式', value: '暗色工作台' },
+  { label: '访问状态', value: '已登录' }
+])
 </script>
 
 <style scoped>
-.home-container {
+.dashboard-page {
   width: 100%;
 }
 
-/* 欢迎Banner */
-.welcome-banner {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 20px;
-  padding: 56px;
-  color: #fff;
-  box-shadow: 0 12px 48px rgba(102, 126, 234, 0.35);
-  position: relative;
-  overflow: hidden;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
 }
 
-.banner-background {
+.panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(105, 243, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(13, 24, 38, 0.82) 0%, rgba(5, 11, 20, 0.88) 100%);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.panel::before {
+  content: '';
   position: absolute;
-  top: -50%;
-  right: -10%;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(105, 243, 255, 0.04), transparent 38%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), transparent 24%);
+  pointer-events: none;
+}
+
+.hero-panel {
+  grid-column: span 7;
+  min-height: 360px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.telemetry-panel {
+  grid-column: span 5;
+  padding: 28px;
+}
+
+.modules-panel {
+  grid-column: span 8;
+  padding: 28px;
+}
+
+.path-panel,
+.stream-panel,
+.command-panel {
+  grid-column: span 4;
+  padding: 28px;
+}
+
+.panel-glow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
+  background: radial-gradient(circle, rgba(105, 243, 255, 0.24), transparent 68%);
+  filter: blur(8px);
   animation: pulse 6s ease-in-out infinite;
 }
 
-.welcome-banner::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -10%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: pulse 8s ease-in-out infinite;
-}
-
-.banner-content {
-  display: flex;
+.panel-kicker {
+  display: inline-flex;
   align-items: center;
-  gap: 40px;
-  margin-bottom: 28px;
-  position: relative;
-  z-index: 1;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
 }
 
-.banner-icon {
-  width: 120px;
-  height: 120px;
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
+.panel-heading {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 56px;
-  flex-shrink: 0;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-  animation: pulse 3s ease-in-out infinite;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
 }
 
-.banner-title {
-  font-size: 42px;
-  font-weight: 800;
-  margin: 0 0 12px 0;
-  color: #fff;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  letter-spacing: -0.5px;
-}
-
-.banner-subtitle {
-  font-size: 19px;
-  margin: 0 0 28px 0;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 400;
-}
-
-.banner-stats {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.stat-number {
-  font-size: 38px;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1;
-  margin-bottom: 10px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.stat-label {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-}
-
-.stat-divider {
-  width: 2px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.banner-alert {
-  display: flex;
-  align-items: center;
-  padding: 14px 24px;
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.98);
-  position: relative;
-  z-index: 1;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* 分区标题 */
-.section-header {
-  margin-bottom: 28px;
-}
-
-.section-header h2 {
+.panel-heading h2 {
   font-size: 26px;
-  font-weight: 700;
-  margin: 0 0 10px 0;
-  color: #2c3e50;
-  display: flex;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.panel-chip,
+.panel-note {
+  display: inline-flex;
   align-items: center;
-}
-
-.section-header p {
-  margin: 0;
-  color: #95a5a6;
-  font-size: 15px;
-}
-
-/* 快捷链接卡片 */
-.quick-link-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 28px 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  position: relative;
-  overflow: hidden;
-  border: 2px solid transparent;
-}
-
-.quick-link-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  transform: scaleX(0);
-  transition: transform 0.4s ease;
-}
-
-.quick-link-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
-  border-color: rgba(102, 126, 234, 0.2);
-}
-
-.quick-link-card:hover::before {
-  transform: scaleX(1);
-}
-
-.quick-link-icon {
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 18px;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
-}
-
-.quick-link-card:hover .quick-link-icon {
-  transform: scale(1.15) rotate(5deg);
-}
-
-.quick-link-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 10px;
-}
-
-.quick-link-badge {
-  display: inline-block;
-  padding: 4px 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(105, 243, 255, 0.18);
+  background: rgba(105, 243, 255, 0.08);
+  color: var(--accent);
   font-size: 12px;
-  font-weight: 600;
-  border-radius: 14px;
-  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-.badge-critical {
-  background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(255, 77, 79, 0.3);
-}
-
-.badge-high {
-  background: linear-gradient(135deg, #fa8c16 0%, #ffc53d 100%);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(250, 140, 22, 0.3);
-}
-
-.badge-medium {
-  background: linear-gradient(135deg, #faad14 0%, #ffd666 100%);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(250, 173, 20, 0.3);
-}
-
-.badge-low {
-  background: linear-gradient(135deg, #52c41a 0%, #95de64 100%);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
-}
-
-.quick-link-card:hover .quick-link-badge {
-  transform: scale(1.1);
-}
-
-/* 统计卡片 */
-.stat-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 32px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border-top: 5px solid;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.hero-copy {
   position: relative;
-  overflow: hidden;
+  z-index: 1;
 }
 
-.stat-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
-  border-radius: 50%;
+.hero-heading {
+  max-width: 680px;
 }
 
-.stat-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(105, 243, 255, 0.18);
+  background: rgba(105, 243, 255, 0.08);
+  color: var(--accent);
+  margin-bottom: 18px;
+  font-size: 13px;
 }
 
-.stat-card-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 16px;
+.hero-heading h1 {
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 18px;
+  color: var(--text-primary);
+}
+
+.hero-heading p {
+  max-width: 600px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.metric-card {
+  padding: 18px 18px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(5, 15, 26, 0.54);
+  border: 1px solid rgba(105, 243, 255, 0.1);
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.metric-label {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.telemetry-list,
+.path-list,
+.stream-list,
+.signal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.telemetry-item,
+.stream-card,
+.signal-item,
+.path-item {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: rgba(6, 15, 25, 0.7);
+  border: 1px solid rgba(105, 243, 255, 0.08);
+}
+
+.telemetry-icon,
+.stream-icon,
+.path-index {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
-  color: #fff;
   flex-shrink: 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background: rgba(105, 243, 255, 0.08);
+  color: var(--accent);
+  font-size: 20px;
 }
 
-.stat-card:hover .stat-card-icon {
-  transform: scale(1.1) rotate(-5deg);
-}
-
-.stat-card-info {
+.telemetry-body,
+.stream-text,
+.path-content {
   flex: 1;
 }
 
-.stat-card-count {
-  font-size: 42px;
-  font-weight: 800;
-  color: #2c3e50;
-  line-height: 1;
-  margin-bottom: 10px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.stat-card-label {
-  font-size: 15px;
-  color: #95a5a6;
-  font-weight: 600;
-}
-
-.stat-card-badge {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.telemetry-top,
+.signal-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: white;
-  opacity: 0.15;
-  transition: all 0.3s ease;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.stat-card:hover .stat-card-badge {
-  opacity: 0.3;
-  transform: translateX(8px);
+.telemetry-top span,
+.stream-text p,
+.path-content p,
+.signal-item span {
+  color: var(--text-muted);
 }
 
-/* 特性卡片 */
-.feature-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 36px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.telemetry-top strong,
+.stream-text strong,
+.path-content strong,
+.signal-item strong {
+  color: var(--text-primary);
+}
+
+.telemetry-body p,
+.stream-text p,
+.path-content p {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.signal-bar {
+  margin-top: 12px;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.signal-bar span {
+  display: block;
   height: 100%;
-  border: 2px solid transparent;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(105, 243, 255, 0.4), rgba(105, 243, 255, 0.9));
 }
 
-.feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: rgba(102, 126, 234, 0.2);
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
-.feature-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
+.module-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid rgba(105, 243, 255, 0.1);
+  background: rgba(6, 15, 25, 0.66);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(105, 243, 255, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.24);
+}
+
+.module-top {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.module-icon {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  font-size: 36px;
-  color: #fff;
-  margin-bottom: 24px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  background: rgba(105, 243, 255, 0.08);
+  color: var(--accent);
+  font-size: 24px;
 }
 
-.feature-card:hover .feature-icon {
-  transform: scale(1.1) rotate(-5deg);
+.risk-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid transparent;
 }
 
-.feature-title {
-  font-size: 20px;
+.risk-critical {
+  color: #ffc7d3;
+  background: rgba(255, 107, 143, 0.12);
+  border-color: rgba(255, 107, 143, 0.18);
+}
+
+.risk-high {
+  color: #ffd4df;
+  background: rgba(255, 107, 143, 0.08);
+  border-color: rgba(255, 107, 143, 0.14);
+}
+
+.risk-medium {
+  color: #ffe7ba;
+  background: rgba(255, 200, 87, 0.1);
+  border-color: rgba(255, 200, 87, 0.16);
+}
+
+.risk-default {
+  color: var(--text-secondary);
+  background: rgba(105, 243, 255, 0.08);
+  border-color: rgba(105, 243, 255, 0.12);
+}
+
+.module-title {
+  font-size: 22px;
   font-weight: 700;
-  color: #2c3e50;
-  margin: 0 0 20px 0;
+  color: var(--text-primary);
 }
 
-.feature-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.module-desc {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  min-height: 58px;
 }
 
-.feature-list li {
-  padding: 10px 0;
-  color: #5a6c7d;
-  font-size: 15px;
+.module-meta {
   display: flex;
   align-items: center;
-  transition: all 0.3s ease;
-}
-
-.feature-list li:hover {
-  color: #2c3e50;
-  transform: translateX(4px);
-}
-
-/* 信息卡片 */
-.info-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 28px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.info-item {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 20px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.info-item:hover {
-  background: linear-gradient(135deg, #f0f5ff 0%, #e6f7ff 100%);
-  border-color: rgba(102, 126, 234, 0.2);
-  transform: translateY(-2px);
-}
-
-.info-icon {
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  color: #fff;
-  flex-shrink: 0;
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-  transition: transform 0.3s ease;
-}
-
-.info-item:hover .info-icon {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.info-label {
+  justify-content: space-between;
+  gap: 14px;
+  padding-top: 6px;
+  color: var(--text-muted);
   font-size: 13px;
-  color: #95a5a6;
-  margin-bottom: 6px;
-  font-weight: 500;
+  letter-spacing: 0.04em;
 }
 
-.info-value {
-  font-size: 16px;
+.path-index {
+  font-size: 14px;
   font-weight: 700;
-  color: #2c3e50;
+  letter-spacing: 0.12em;
+}
+
+.stream-card {
+  align-items: flex-start;
+}
+
+.stream-icon {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+}
+
+.signal-item {
+  padding: 15px 16px;
+}
+
+.command-footer {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 200, 87, 0.14);
+  background: rgba(255, 200, 87, 0.08);
+  color: #ffe6ad;
+  line-height: 1.7;
+}
+
+@media (max-width: 1200px) {
+  .hero-panel,
+  .telemetry-panel,
+  .modules-panel,
+  .path-panel,
+  .stream-panel,
+  .command-panel {
+    grid-column: span 12;
+  }
+
+  .module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
-  .welcome-banner {
-    padding: 40px 28px;
+  .dashboard-grid {
+    gap: 16px;
   }
 
-  .banner-content {
+  .hero-panel,
+  .telemetry-panel,
+  .modules-panel,
+  .path-panel,
+  .stream-panel,
+  .command-panel {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .hero-actions,
+  .hero-stats,
+  .module-grid {
+    grid-template-columns: 1fr;
     flex-direction: column;
-    text-align: center;
-    gap: 24px;
   }
 
-  .banner-icon {
-    width: 96px;
-    height: 96px;
-    font-size: 48px;
+  .hero-actions {
+    display: flex;
   }
 
-  .banner-title {
-    font-size: 32px;
+  .hero-heading h1 {
+    font-size: 36px;
   }
 
-  .banner-subtitle {
-    font-size: 16px;
+  .module-grid {
+    display: grid;
   }
 
-  .banner-stats {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .stat-number {
-    font-size: 32px;
+  .panel-heading {
+    flex-direction: column;
   }
 }
 </style>
-

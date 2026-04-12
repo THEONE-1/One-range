@@ -1,14 +1,14 @@
 <template>
   <vuln-template
     title="存储型 XSS 漏洞"
-    subtitle="Cross-Site Scripting - Stored Type"
+    subtitle="存储型脚本注入"
     level="高危"
     :icon="BugOutlined"
     moduleKey="xss_store"
   >
     <template #description>
       <a-typography-paragraph>
-        <strong>存储型XSS (Stored XSS)</strong> 是一种将恶意脚本永久存储在目标服务器数据库中的XSS攻击类型。
+        <strong>存储型脚本注入</strong> 是一种将恶意脚本永久存储在目标服务器数据库中的攻击类型。
       </a-typography-paragraph>
       <a-typography-paragraph>
         存储型XSS的特点：
@@ -48,8 +48,8 @@
 
     <template #test-form>
       <!-- 模拟真实留言板 -->
-      <div style="background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
-        <h3 style="margin-bottom: 16px; color: #1890ff;">💬 留言板</h3>
+      <div class="lab-surface">
+        <h3 class="lab-surface-title lab-surface-title--accent">留言板</h3>
         <a-form :model="formState" @finish="handleSubmit" layout="vertical">
           <a-form-item
             name="content"
@@ -82,11 +82,11 @@
       </div>
       
       <!-- 显示留言列表 -->
-      <div v-if="result && result !== '暂无留言内容'" style="background: #f5f5f5; padding: 24px; border-radius: 8px;">
-        <h4 style="margin-bottom: 16px;">📋 留言列表</h4>
-        <div v-html="result" ref="xssResult"></div>
+      <div v-if="result && result !== '暂无留言内容'" class="lab-surface lab-surface-muted">
+        <h4 class="lab-surface-title">留言列表</h4>
+        <div class="lab-result-box" v-html="result" ref="xssResult"></div>
       </div>
-      <div v-else-if="result === '暂无留言内容'" style="background: #f5f5f5; padding: 24px; border-radius: 8px; text-align: center; color: #999;">
+      <div v-else-if="result === '暂无留言内容'" class="lab-empty">
         暂无留言，快来发表第一条留言吧！
       </div>
     </template>

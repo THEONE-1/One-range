@@ -1,7 +1,7 @@
 <template>
   <vuln-template
-    title="Java反序列化 - ReadObject"
-    subtitle="Java Deserialization"
+    title="Java反序列化 - 对象读取"
+    subtitle="对象读取反序列化"
     level="严重"
     :icon="BlockOutlined"
     moduleKey="readobject"

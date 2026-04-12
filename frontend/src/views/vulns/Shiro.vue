@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="Shiro反序列化"
-    subtitle="Shiro Deserialization RCE"
+    subtitle="反序列化远程执行"
     level="严重"
     :icon="SafetyOutlined"
     moduleKey="shiro"

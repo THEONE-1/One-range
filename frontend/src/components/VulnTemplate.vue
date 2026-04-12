@@ -43,8 +43,8 @@
               <a-collapse-panel key="hint">
                 <template #header>
                   <div class="hint-header">
-                    <bulb-outlined style="color: #faad14; margin-right: 8px;" />
-                    <span>💡 需要测试提示？点击查看建议</span>
+                    <bulb-outlined class="hint-icon" />
+                    <span>测试提示</span>
                   </div>
                 </template>
                 <div class="hint-content">
@@ -78,9 +78,9 @@
           <a-collapse-panel key="1">
             <template #header>
               <div class="collapse-header">
-                <book-outlined class="collapse-icon" style="color: #3A7BD5" />
+                <book-outlined class="collapse-icon" />
                 <span class="collapse-title">漏洞原理</span>
-                <a-tag color="blue" size="small">点击查看</a-tag>
+                <span class="collapse-tag">展开内容</span>
               </div>
             </template>
             <div class="collapse-content">
@@ -92,9 +92,9 @@
           <a-collapse-panel key="2">
             <template #header>
               <div class="collapse-header">
-                <bug-outlined class="collapse-icon" style="color: #f5222d" />
+                <bug-outlined class="collapse-icon" />
                 <span class="collapse-title">攻击示例</span>
-                <a-tag color="red" size="small">点击查看</a-tag>
+                <span class="collapse-tag">展开内容</span>
               </div>
             </template>
             <div class="collapse-content">
@@ -106,9 +106,9 @@
           <a-collapse-panel key="3" v-if="$slots['source-code']">
             <template #header>
               <div class="collapse-header">
-                <code-outlined class="collapse-icon" style="color: #722ed1" />
+                <code-outlined class="collapse-icon" />
                 <span class="collapse-title">后端源码</span>
-                <a-tag color="purple" size="small">点击查看</a-tag>
+                <span class="collapse-tag">展开内容</span>
               </div>
             </template>
             <div class="collapse-content">
@@ -120,9 +120,9 @@
           <a-collapse-panel key="4">
             <template #header>
               <div class="collapse-header">
-                <tool-outlined class="collapse-icon" style="color: #52c41a" />
+                <tool-outlined class="collapse-icon" />
                 <span class="collapse-title">修复方案</span>
-                <a-tag color="green" size="small">点击查看</a-tag>
+                <span class="collapse-tag">展开内容</span>
               </div>
             </template>
             <div class="collapse-content">
@@ -257,48 +257,51 @@ onMounted(() => {
   width: 100%;
 }
 
-/* 页面头部 */
 .vuln-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
-  padding: 40px;
-  color: #fff;
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
   position: relative;
   overflow: hidden;
+  padding: 34px;
+  border-radius: 28px;
+  border: 1px solid rgba(105, 243, 255, 0.16);
+  background:
+    radial-gradient(circle at top right, rgba(105, 243, 255, 0.18), transparent 28%),
+    linear-gradient(135deg, rgba(16, 28, 44, 0.92) 0%, rgba(4, 10, 18, 0.92) 100%);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
 }
 
 .vuln-header::before {
   content: '';
   position: absolute;
-  top: -50%;
-  right: -10%;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  border-radius: 50%;
+  inset: 0;
+  background:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .header-content {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 24px;
-  position: relative;
-  z-index: 1;
 }
 
 .header-icon {
-  width: 80px;
-  height: 80px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
+  width: 84px;
+  height: 84px;
+  border-radius: 24px;
+  border: 1px solid rgba(105, 243, 255, 0.16);
+  background: rgba(105, 243, 255, 0.08);
+  backdrop-filter: blur(16px);
+  color: var(--accent);
+  font-size: 38px;
   flex-shrink: 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .header-text {
@@ -309,70 +312,62 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .complete-btn {
-  height: 40px;
-  padding: 0 24px;
+  height: 42px;
+  padding: 0 22px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 999px;
 }
 
 .complete-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
 }
 
 .header-title {
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-  color: #fff;
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.05;
+  color: var(--text-primary);
 }
 
 .header-subtitle {
-  font-size: 16px;
   margin: 0;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-secondary);
 }
 
 .level-tag {
-  font-size: 14px;
-  padding: 4px 16px;
-  border-radius: 20px;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 999px;
   font-weight: 600;
 }
 
-/* 卡片通用样式 */
 .test-card,
 .result-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  transition: all 0.3s;
+  border-radius: 24px;
+  border: 1px solid rgba(105, 243, 255, 0.12);
+  background: linear-gradient(180deg, rgba(11, 24, 38, 0.84) 0%, rgba(6, 12, 21, 0.92) 100%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .test-card:hover,
 .result-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
-}
-
-.test-card {
-  border-top: 4px solid #FFB74D;
-}
-
-.result-card {
-  border-top: 4px solid #52c41a;
+  transform: translateY(-3px);
+  border-color: rgba(105, 243, 255, 0.24);
 }
 
 .card-header {
   padding: 20px 24px;
-  border-bottom: 1px solid #f0f0f0;
-  background: #fafafa;
+  border-bottom: 1px solid rgba(105, 243, 255, 0.1);
+  background: rgba(105, 243, 255, 0.04);
 }
 
 .card-title {
@@ -381,49 +376,45 @@ onMounted(() => {
   gap: 12px;
   font-size: 18px;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .title-icon {
-  font-size: 20px;
-  color: #FFB74D;
-}
-
-.result-card .title-icon {
-  color: #52c41a;
+  font-size: 18px;
+  color: var(--accent);
 }
 
 .card-body {
   padding: 24px;
 }
 
-/* 折叠面板 */
 .help-collapse {
   background: transparent;
 }
 
 .help-collapse :deep(.ant-collapse-item) {
-  background: #fff;
-  border-radius: 12px;
   margin-bottom: 16px;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  transition: all 0.3s;
+  border: 1px solid rgba(105, 243, 255, 0.1);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(11, 24, 38, 0.82) 0%, rgba(6, 12, 21, 0.9) 100%);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .help-collapse :deep(.ant-collapse-item:hover) {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
+  border-color: rgba(105, 243, 255, 0.22);
 }
 
 .help-collapse :deep(.ant-collapse-header) {
   padding: 20px 24px;
-  background: #fafafa;
+  background: rgba(105, 243, 255, 0.05);
 }
 
 .help-collapse :deep(.ant-collapse-content) {
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid rgba(105, 243, 255, 0.08);
+  background: transparent;
 }
 
 .help-collapse :deep(.ant-collapse-content-box) {
@@ -439,62 +430,75 @@ onMounted(() => {
 
 .collapse-icon {
   font-size: 18px;
+  color: var(--accent);
 }
 
 .collapse-title {
   flex: 1;
   font-size: 16px;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-primary);
+}
+
+.collapse-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(105, 243, 255, 0.28);
+  background: rgba(105, 243, 255, 0.14);
+  color: #d7fdff;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .collapse-content {
   font-size: 14px;
-  line-height: 1.8;
-  color: #5a6c7d;
+  line-height: 1.85;
+  color: #d8edf8;
 }
 
-/* 结果内容样式 */
 :deep(.result-content) {
-  background: #f6f8fa;
-  padding: 20px;
-  border-radius: 8px;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   max-height: 500px;
   overflow-y: auto;
-  border: 1px solid #e8e8e8;
+  padding: 20px;
+  border: 1px solid rgba(105, 243, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(4, 12, 20, 0.88);
+  color: #cffaff;
+  font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
 }
 
 :deep(pre) {
   margin: 0;
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.7;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-size: 13px;
-  line-height: 1.6;
-  color: #2c3e50;
 }
 
-/* 输入提示折叠 */
 .hint-collapse {
   margin-top: 20px;
   background: transparent;
 }
 
 .hint-collapse :deep(.ant-collapse-item) {
-  background: #fff7e6;
-  border: 1px dashed #faad14;
-  border-radius: 8px;
   overflow: hidden;
+  border: 1px solid rgba(105, 243, 255, 0.28);
+  border-radius: 18px;
+  background: rgba(105, 243, 255, 0.1);
 }
 
 .hint-collapse :deep(.ant-collapse-header) {
-  padding: 12px 16px;
-  background: transparent;
+  padding: 14px 16px;
+  background: rgba(105, 243, 255, 0.05);
 }
 
 .hint-collapse :deep(.ant-collapse-content) {
-  border-top: 1px dashed #faad14;
-  background: #fffbf0;
+  border-top: 1px solid rgba(105, 243, 255, 0.22);
+  background: rgba(6, 15, 25, 0.82);
 }
 
 .hint-collapse :deep(.ant-collapse-content-box) {
@@ -504,36 +508,174 @@ onMounted(() => {
 .hint-header {
   display: flex;
   align-items: center;
-  color: #d48806;
-  font-weight: 500;
+  gap: 10px;
+  color: #e7fcff;
+  font-weight: 600;
+}
+
+.hint-icon {
+  color: var(--accent);
 }
 
 .hint-content {
-  color: #5a6c7d;
-  line-height: 1.8;
+  color: #d8edf8;
+  line-height: 1.85;
 }
 
-/* 代码块样式 - 保持格式 */
+.hint-content :deep(.ant-alert) {
+  margin-bottom: 14px;
+}
+
+.hint-content :deep(code) {
+  display: inline-block;
+  margin: 0 4px 4px 0;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(105, 243, 255, 0.12);
+  border: 1px solid rgba(105, 243, 255, 0.18);
+  color: #effcff;
+  font-size: 12px;
+}
+
+.card-body :deep(ul),
+.collapse-content :deep(ul),
+.card-body :deep(ol),
+.collapse-content :deep(ol) {
+  padding-left: 20px;
+  color: #d8edf8;
+  line-height: 1.9;
+}
+
+.card-body :deep(li),
+.collapse-content :deep(li) {
+  margin-bottom: 8px;
+}
+
+:deep(.collapse-content strong),
+:deep(.hint-content strong),
+:deep(.collapse-content h3),
+:deep(.collapse-content h4),
+:deep(.hint-content h3),
+:deep(.hint-content h4) {
+  color: var(--text-primary);
+}
+
+:deep(.collapse-content p),
+:deep(.collapse-content li),
+:deep(.hint-content p),
+:deep(.hint-content li) {
+  color: #d8edf8;
+}
+
+.lab-surface {
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(105, 243, 255, 0.12);
+  background: linear-gradient(180deg, rgba(8, 18, 30, 0.9) 0%, rgba(5, 11, 20, 0.96) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.lab-surface + .lab-surface,
+.lab-surface + .lab-empty,
+.lab-empty + .lab-surface {
+  margin-top: 18px;
+}
+
+.lab-surface-muted {
+  background: rgba(7, 16, 27, 0.7);
+}
+
+.lab-surface-title {
+  margin: 0 0 16px;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.lab-surface-title--accent {
+  color: var(--accent);
+}
+
+.lab-label {
+  margin: 0 0 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lab-inline-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+
+.lab-inline-form > :deep(.ant-form-item:first-child) {
+  flex: 1;
+  margin-right: 0 !important;
+}
+
+.lab-result-box {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(105, 243, 255, 0.12);
+  background: rgba(4, 12, 20, 0.92);
+}
+
+.lab-result-box--accent {
+  border-left: 4px solid var(--accent);
+}
+
+.lab-result-box :deep(pre) {
+  margin: 0;
+  color: #bff8ff;
+  white-space: pre-wrap;
+}
+
+.lab-caption {
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.lab-empty {
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px dashed rgba(105, 243, 255, 0.16);
+  background: rgba(7, 16, 27, 0.62);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.lab-note {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
 .collapse-content :deep(.ant-typography code),
 :deep(.ant-typography code) {
   display: block !important;
-  white-space: pre !important;
-  overflow-x: auto !important;
-  padding: 16px !important;
-  background: #f6f8fa !important;
-  border-radius: 6px !important;
-  border: 1px solid #e1e4e8 !important;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
-  font-size: 13px !important;
-  line-height: 1.6 !important;
-  color: #24292e !important;
+  width: 100% !important;
   margin: 0 !important;
+  padding: 16px !important;
+  overflow-x: auto !important;
+  white-space: pre !important;
   word-wrap: normal !important;
   word-break: normal !important;
   tab-size: 4 !important;
-  text-align: left !important;
-  width: 100% !important;
   box-sizing: border-box !important;
+  border: 1px solid rgba(105, 243, 255, 0.12) !important;
+  border-radius: 14px !important;
+  background: rgba(4, 12, 20, 0.92) !important;
+  color: #cffaff !important;
+  font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace !important;
+  font-size: 13px !important;
+  line-height: 1.65 !important;
+  text-align: left !important;
 }
 
 .collapse-content :deep(.ant-typography pre code),
@@ -547,23 +689,34 @@ onMounted(() => {
   margin-top: 8px;
 }
 
-/* 响应式 */
 @media (max-width: 768px) {
   .vuln-header {
     padding: 24px;
+    border-radius: 22px;
   }
-  
+
   .header-content {
     flex-direction: column;
-    text-align: center;
+    align-items: flex-start;
   }
-  
+
+  .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
   .header-title {
-    font-size: 24px;
+    font-size: 26px;
   }
-  
-  .level-tag {
-    align-self: center;
+
+  .lab-surface,
+  .lab-empty {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .lab-inline-form {
+    flex-direction: column;
   }
 }
 </style>

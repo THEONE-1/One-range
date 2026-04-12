@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="Fastjson反序列化"
-    subtitle="Fastjson Deserialization"
+    subtitle="反序列化漏洞"
     level="严重"
     :icon="ApiOutlined"
     moduleKey="fastjson"

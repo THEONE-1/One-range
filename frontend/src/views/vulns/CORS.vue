@@ -1,14 +1,14 @@
 <template>
   <vuln-template
     title="CORS跨域"
-    subtitle="Cross-Origin Resource Sharing"
+    subtitle="跨域资源共享"
     level="中危"
     :icon="ShareAltOutlined"
     moduleKey="cors"
   >
     <template #description>
       <a-typography-paragraph>
-        <strong>CORS (Cross-Origin Resource Sharing)</strong> 跨域资源共享是一种基于HTTP头的机制,允许服务器标识除了它自己以外的其它来源。
+        <strong>跨域资源共享</strong> 是一种基于请求头的机制，用于让服务器标识并决定是否允许其它来源访问资源。
       </a-typography-paragraph>
       <a-typography-paragraph>
         CORS漏洞的危害：

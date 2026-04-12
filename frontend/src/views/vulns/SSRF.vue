@@ -1,14 +1,14 @@
 <template>
   <vuln-template
     title="SSRF"
-    subtitle="Server-Side Request Forgery"
+    subtitle="服务端请求伪造"
     level="高危"
     :icon="GlobalOutlined"
     moduleKey="ssrf"
   >
     <template #description>
       <a-typography-paragraph>
-        <strong>SSRF (Server-Side Request Forgery)</strong> 服务端请求伪造是一种由攻击者构造请求,由服务端发起请求的安全漏洞。
+        <strong>服务端请求伪造</strong> 是一种由攻击者构造请求、再由服务端代为发起请求的安全漏洞。
       </a-typography-paragraph>
       <a-typography-paragraph>
         SSRF漏洞的危害：

@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="未授权访问"
-    subtitle="Unauthorized Access"
+    subtitle="未授权访问风险"
     level="中危"
     :icon="UnlockOutlined"
     moduleKey="unauth"
@@ -56,24 +56,22 @@
 
     <template #test-form>
       <!-- 模拟真实用户信息查询页面 -->
-      <div style="background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
-        <h3 style="margin-bottom: 16px; color: #1890ff;">👤 用户信息查询（未授权访问）</h3>
+      <div class="lab-surface">
+        <h3 class="lab-surface-title lab-surface-title--accent">用户信息查询（未授权访问）</h3>
         <a-alert
           message="此接口未进行权限验证，任何人都可以查询用户信息"
           type="warning"
           show-icon
           style="margin-bottom: 16px"
         />
-        <a-form :model="formState" @finish="handleSubmit" layout="inline" style="width: 100%">
+        <a-form :model="formState" @finish="handleSubmit" layout="inline" class="lab-inline-form">
           <a-form-item
             name="username"
-            style="flex: 1; margin-right: 8px;"
           >
             <a-input
               v-model:value="formState.username"
               placeholder="请输入用户名（如：admin）或输入 all 查询所有用户"
               size="large"
-              style="width: 100%;"
             />
           </a-form-item>
           <a-form-item>
@@ -86,10 +84,10 @@
       </div>
       
       <!-- 显示查询结果 -->
-      <div v-if="result" style="background: #f5f5f5; padding: 24px; border-radius: 8px;">
-        <h4 style="margin-bottom: 16px;">📊 查询结果</h4>
-        <div style="background: #fff; padding: 16px; border-radius: 4px;">
-          <pre style="margin: 0; white-space: pre-wrap;">{{ result }}</pre>
+      <div v-if="result" class="lab-surface lab-surface-muted">
+        <h4 class="lab-surface-title">查询结果</h4>
+        <div class="lab-result-box">
+          <pre>{{ result }}</pre>
         </div>
       </div>
     </template>

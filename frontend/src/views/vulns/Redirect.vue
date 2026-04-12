@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="登录后跳转 / 营销跳转"
-    subtitle="URL Redirection"
+    subtitle="地址重定向"
     level="中危"
     :icon="LinkOutlined"
     moduleKey="redirect"

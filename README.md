@@ -34,15 +34,15 @@
 
 ## 🎯 项目简介
 
-One 安全靶场是一个专业的 Web 安全漏洞实验平台，包含 **26 个漏洞演示模块**，涵盖 XSS、SQL 注入、RCE、反序列化等常见安全漏洞，用于安全学习和研究。
+One 安全靶场是一个专业的 Web 安全漏洞实验平台，包含 **25 个漏洞演示模块**，涵盖 XSS、SQL 注入、RCE、反序列化等常见安全漏洞，用于安全学习和研究。
 
 ### ✨ 主要特性
 
 - 🎨 **现代化界面**：基于 Vue 3 + Ant Design Vue，响应式设计
-- 🔐 **用户系统**：支持用户注册、登录、权限管理
+- 🔐 **用户系统**：支持用户注册、登录、修改密码、权限管理
 - 📊 **学习进度**：自动记录学习进度，可视化展示完成情况
 - 🐳 **容器化部署**：Docker Compose 一键启动，开箱即用
-- 🔥 **热重载开发**：前后端支持热重载，提升开发效率
+- 🔥 **热重载开发**：前端支持热重载，后端支持快速重启开发，提升开发效率
 - 📚 **详细文档**：每个漏洞都有原理说明、攻击示例和修复方案
 
 ### ⚠️ 重要提醒
@@ -100,7 +100,7 @@ docker-compose logs -f
 ```
 
 **访问地址**：http://localhost:3000
-**默认账号**：admin / admin
+**默认账号**：请以 `one_range.sql` 初始化数据为准，也可以自行注册账号
 
 ### 停止服务
 
@@ -137,7 +137,7 @@ docker-compose logs -f backend
 cd frontend
 
 # 安装依赖（首次运行）
-npm install --legacy-peer-deps
+npm install
 
 # 启动开发服务器（支持热重载）
 npm run dev
@@ -206,7 +206,7 @@ docker-compose up -d mysql backend
 cd frontend
 
 # 安装依赖
-npm install --legacy-peer-deps
+npm install
 
 # 启动开发服务器（热重载）
 npm run dev
@@ -216,12 +216,6 @@ npm run build
 
 # 预览生产构建
 npm run preview
-
-# 代码格式化
-npm run format
-
-# 代码检查
-npm run lint
 ```
 
 ### 后端开发常用命令
@@ -276,7 +270,7 @@ One-range/
 ├── src/main/                      # 后端项目（Spring Boot）
 │   ├── java/com/one/range/
 │   │   ├── controller/           # 控制器层
-│   │   │   ├── AdminController.java          # 用户认证、注册
+│   │   │   ├── AdminController.java          # 用户认证、注册、修改密码、用户管理
 │   │   │   ├── LearningProgressController.java # 学习进度管理
 │   │   │   ├── basevul/          # 基础漏洞（19个）
 │   │   │   │   ├── XSSVul.java
@@ -285,7 +279,7 @@ One-range/
 │   │   │   │   ├── rce/          # 命令执行漏洞
 │   │   │   │   ├── sqli/         # SQL注入漏洞
 │   │   │   │   └── xxe/          # XXE漏洞
-│   │   │   ├── componentsvul/    # 组件漏洞（6个）
+│   │   │   ├── componentsvul/    # 组件漏洞（5个）
 │   │   │   │   ├── FastJson.java
 │   │   │   │   ├── Jackson.java
 │   │   │   │   └── ...
@@ -787,6 +781,7 @@ controller/basevul/XSSVul.java::xssInsert()
 ### 用户系统
 - ✅ 用户注册（用户名、密码、验证码）
 - ✅ 用户登录（Session 认证）
+- ✅ 用户修改密码
 - ✅ 用户管理（管理员功能）
 - ✅ 权限控制（管理员/普通用户）
 
@@ -941,8 +936,8 @@ docker-compose ps
 # 2. 查看后端日志
 docker-compose logs backend
 
-# 3. 测试后端 API
-curl http://localhost:8000/admin/login
+# 3. 测试后端服务
+curl http://localhost:8000/
 
 # 4. 检查 Vite 代理配置
 cat frontend/vite.config.js
@@ -1015,7 +1010,7 @@ docker-compose build backend
 ```
 
 **解决方案**：
-- 使用 Maven 镜像源（已在 `pom.xml` 配置清华源）
+- 使用 Maven Wrapper 或可用镜像源
 - 清理 Maven 缓存：`./mvnw clean`
 - 检查网络连接
 
@@ -1040,7 +1035,7 @@ rm -rf node_modules package-lock.json
 
 **解决方案**：
 - 使用淘宝镜像：`npm config set registry https://registry.npmmirror.com`
-- 使用 `--legacy-peer-deps` 参数：`npm install --legacy-peer-deps`
+- 重新执行：`npm install`
 - 升级 Node.js 版本到 18+
 
 #### 6. 学习进度功能失败
@@ -1112,7 +1107,7 @@ docker-compose logs backend | grep ERROR
 |------|---------|-------------------|------|
 | 前端 | 3000 (Vite) | 3000 (Nginx) | Vue 前端页面 |
 | 后端 | 8000 | 8000 | Spring Boot API |
-| MySQL | 3306/3307 | 3307→3306 | 数据库服务 |
+| MySQL | 3307（宿主机） | 3307→3306 | 数据库服务 |
 
 ### 修改端口
 

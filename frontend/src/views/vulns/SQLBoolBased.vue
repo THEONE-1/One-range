@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="SQL注入 - 布尔盲注"
-    subtitle="Boolean Based SQL Injection"
+    subtitle="布尔盲注"
     level="高危"
     :icon="DatabaseOutlined"
     moduleKey="sql_bool"
@@ -31,19 +31,17 @@
     </template>
 
     <template #test-form>
-      <div style="background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
-        <h3 style="margin-bottom: 16px; color: #1890ff;">👤 用户信息查询（布尔型）</h3>
-        <a-form :model="formState" @finish="handleSubmit" layout="inline" style="width: 100%">
+      <div class="lab-surface">
+        <h3 class="lab-surface-title lab-surface-title--accent">用户信息查询（布尔型）</h3>
+        <a-form :model="formState" @finish="handleSubmit" layout="inline" class="lab-inline-form">
           <a-form-item
             name="id"
             :rules="[{ required: true, message: '请输入用户ID' }]"
-            style="flex: 1; margin-right: 8px;"
           >
             <a-input
               v-model:value="formState.id"
               placeholder="例如：1 "
               size="large"
-              style="width: 100%;"
             />
           </a-form-item>
           <a-form-item>
@@ -55,10 +53,10 @@
         </a-form>
       </div>
 
-      <div v-if="result" style="background: #f5f5f5; padding: 24px; border-radius: 8px;">
-        <h4 style="margin-bottom: 16px;">📊 查询结果</h4>
-        <div style="background: #fff; padding: 16px; border-radius: 4px;">
-          <pre style="margin: 0; color: #1890ff; white-space: pre-wrap;">{{ result }}</pre>
+      <div v-if="result" class="lab-surface lab-surface-muted">
+        <h4 class="lab-surface-title">查询结果</h4>
+        <div class="lab-result-box">
+          <pre>{{ result }}</pre>
         </div>
       </div>
     </template>

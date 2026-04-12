@@ -1,7 +1,7 @@
 <template>
   <vuln-template
-    title="Log4j RCE"
-    subtitle="Log4Shell Vulnerability"
+    title="日志组件远程执行"
+    subtitle="日志注入远程执行"
     level="严重"
     :icon="FileProtectOutlined"
     moduleKey="log4j"

@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="文件上传漏洞"
-    subtitle="File Upload"
+    subtitle="文件上传风险"
     level="中危"
     :icon="CloudUploadOutlined"
     moduleKey="file_upload"

@@ -1,50 +1,47 @@
 <template>
-  <div class="login-container">
-    <!-- 左侧信息展示区 -->
-    <div class="left-panel">
-      <div class="matrix-bg"></div>
-      <div class="glow-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="orb orb-4"></div>
-        <div class="orb orb-5"></div>
-      </div>
-
-      <div class="panel-content">
-        <div class="brand-section">
-          <div class="brand-icon">
-            <security-scan-outlined :style="{ fontSize: '64px' }" />
-          </div>
-          <h1 class="brand-title">One 安全靶场</h1>
-          <p class="brand-subtitle">ONE SECURITY RANGE</p>
-          <div class="brand-divider"></div>
-          <p class="brand-desc">专业的Web安全漏洞实验平台</p>
+  <div class="auth-page login-page">
+    <div class="auth-noise"></div>
+    <section class="auth-shell">
+      <div class="auth-hero">
+        <div class="hero-grid"></div>
+        <div class="hero-rings">
+          <span class="ring ring-a"></span>
+          <span class="ring ring-b"></span>
         </div>
 
-        <div class="features-section">
-          <div class="feature-item">
-            <bug-outlined class="feature-icon" />
-            <span>真实漏洞环境</span>
+        <div class="hero-topline">
+          <security-scan-outlined />
+          <span>One靶场</span>
+        </div>
+
+        <div class="hero-copy">
+          <h1>One靶场</h1>
+          <p>Java 安全学习平台</p>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-card" v-for="metric in heroMetrics" :key="metric.label">
+            <strong>{{ metric.value }}</strong>
+            <span>{{ metric.label }}</span>
           </div>
-          <div class="feature-item">
-            <code-outlined class="feature-icon" />
-            <span>源码级别学习</span>
-          </div>
-          <div class="feature-item">
-            <safety-outlined class="feature-icon" />
-            <span>安全防护实践</span>
+        </div>
+
+        <div class="feature-list">
+          <div class="feature-card" v-for="feature in features" :key="feature.title">
+            <component :is="feature.icon" class="feature-icon" />
+            <div class="feature-copy">
+              <strong>{{ feature.title }}</strong>
+              <p>{{ feature.description }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- 右侧登录表单区 -->
-    <div class="right-panel">
-      <div class="login-box">
-        <div class="login-header">
+      <div class="auth-panel">
+        <div class="panel-header">
+          <div class="panel-badge">登录入口</div>
           <h2>欢迎回来</h2>
-          <p>登录您的账户开始学习</p>
+          <p>登录您的账户，继续漏洞实验与学习进度追踪。</p>
         </div>
 
         <a-alert
@@ -54,13 +51,13 @@
           show-icon
           closable
           @close="errorMsg = ''"
-          style="margin-bottom: 24px"
+          class="auth-alert"
         />
 
         <a-form
           :model="formState"
           @finish="handleLogin"
-          class="login-form"
+          class="auth-form"
         >
           <a-form-item
             name="username"
@@ -101,22 +98,21 @@
                 v-model:value="formState.captcha"
                 size="large"
                 placeholder="请输入验证码"
-                style="flex: 1"
               >
                 <template #prefix>
                   <safety-certificate-outlined class="input-icon" />
                 </template>
               </a-input>
+
               <div class="captcha-wrapper">
                 <img
                   :src="captchaUrl"
-                  @click="refreshCaptcha"
                   class="captcha-img"
                   alt="验证码"
                 />
-                <div class="captcha-refresh" @click="refreshCaptcha">
+                <button class="captcha-refresh" type="button" @click="refreshCaptcha" aria-label="刷新验证码">
                   <reload-outlined />
-                </div>
+                </button>
               </div>
             </div>
           </a-form-item>
@@ -128,37 +124,34 @@
               size="large"
               block
               :loading="loading"
-              class="login-btn"
+              class="auth-submit"
             >
               <span v-if="!loading">登 录</span>
               <span v-else>登录中...</span>
             </a-button>
           </a-form-item>
-
-          <div class="form-footer">
-            <a-divider style="margin: 16px 0">
-              <span style="color: #999; font-size: 12px">其他选项</span>
-            </a-divider>
-            <div class="footer-links">
-              <a @click="goToRegister" class="register-link">
-                <user-add-outlined />
-                <span>还没有账号？立即注册</span>
-              </a>
-            </div>
-          </div>
         </a-form>
 
-        <div class="security-notice">
-          <warning-outlined style="margin-right: 8px; color: #faad14" />
-          <span>本平台仅供安全学习使用，请勿用于非法用途</span>
+        <div class="panel-footer">
+          <div class="footer-link-row">
+            <a @click="goToRegister" class="switch-link">
+              <user-add-outlined />
+              <span>还没有账号？立即注册</span>
+            </a>
+          </div>
+
+          <div class="notice-card">
+            <warning-outlined />
+            <span>本平台仅供安全学习和研究，请勿用于非法用途。</span>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -186,11 +179,35 @@ const formState = reactive({
   captcha: ''
 })
 
+const heroMetrics = [
+  { label: '漏洞场景', value: '26+' },
+  { label: '学习视图', value: '矩阵化' },
+  { label: '交互高亮', value: '霓虹青' }
+]
+
+const features = [
+  {
+    title: '真实漏洞环境',
+    description: '覆盖常见漏洞与 Java 组件攻击场景。',
+    icon: BugOutlined
+  },
+  {
+    title: '源码级学习',
+    description: '从测试结果、漏洞原理到修复建议形成完整闭环。',
+    icon: CodeOutlined
+  },
+  {
+    title: '统一安全界面',
+    description: '首页、详情页和学习流程共用暗色未来感工作台。',
+    icon: SafetyOutlined
+  }
+]
+
 const refreshCaptcha = () => {
   captchaUrl.value = '/captcha?t=' + Date.now()
 }
 
-const handleLogin = async (values) => {
+const handleLogin = async () => {
   loading.value = true
   errorMsg.value = ''
 
@@ -206,13 +223,11 @@ const handleLogin = async (values) => {
       }
     })
 
-    // 后端返回的是JSON字符串,需要解析
     let result = response.data
     if (typeof result === 'string') {
       try {
         result = JSON.parse(result)
       } catch {
-        // 如果不是JSON,检查是否包含成功标识
         if (result.includes('成功') || result.includes('success')) {
           result = { success: true }
         } else {
@@ -241,446 +256,369 @@ const handleLogin = async (values) => {
 const goToRegister = () => {
   router.push('/register')
 }
-
-onMounted(() => {
-  // 初始化粒子背景（可选）
-})
 </script>
 
 <style scoped>
-/* 主容器 */
-.login-container {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  background: #0a0e27;
-  overflow: hidden;
-}
-
-/* 左侧面板 */
-.left-panel {
-  flex: 1;
+.auth-page {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #0f1729 0%, #1a1f3a 50%, #0f1729 100%);
+  min-height: 100vh;
+  padding: 24px;
   overflow: hidden;
 }
 
-/* 矩阵背景效果 */
-.matrix-bg {
+.auth-noise {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: matrix-move 20s linear infinite;
-}
-
-@keyframes matrix-move {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(50px);
-  }
-}
-
-/* 光晕闪烁效果 */
-.glow-orbs {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  inset: 0;
+  background:
+    radial-gradient(circle at 16% 20%, rgba(105, 243, 255, 0.14), transparent 22%),
+    radial-gradient(circle at 82% 18%, rgba(52, 110, 255, 0.14), transparent 20%),
+    radial-gradient(circle at 74% 78%, rgba(105, 243, 255, 0.08), transparent 18%);
   pointer-events: none;
 }
 
-.orb {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(0, 212, 255, 0.8);
-  border-radius: 50%;
-  box-shadow: 0 0 20px 4px rgba(0, 212, 255, 0.6);
-  animation: pulse-orb 3s ease-in-out infinite;
-}
-
-.orb-1 {
-  top: 15%;
-  left: 20%;
-  animation-delay: 0s;
-}
-
-.orb-2 {
-  top: 45%;
-  left: 75%;
-  animation-delay: 0.8s;
-}
-
-.orb-3 {
-  top: 70%;
-  left: 30%;
-  animation-delay: 1.6s;
-}
-
-.orb-4 {
-  top: 25%;
-  left: 85%;
-  animation-delay: 2.4s;
-}
-
-.orb-5 {
-  top: 85%;
-  left: 65%;
-  animation-delay: 1.2s;
-}
-
-@keyframes pulse-orb {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.5);
-  }
-}
-
-/* 面板内容 */
-.panel-content {
+.auth-shell {
   position: relative;
   z-index: 1;
-  padding: 60px;
-  max-width: 600px;
+  min-height: calc(100vh - 48px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(360px, 460px);
+  gap: 20px;
+  max-width: 1480px;
+  margin: 0 auto;
 }
 
-/* 品牌区域 */
-.brand-section {
-  text-align: center;
-  margin-bottom: 80px;
+.auth-hero,
+.auth-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  border: 1px solid rgba(105, 243, 255, 0.14);
+  background: linear-gradient(180deg, rgba(12, 24, 38, 0.84) 0%, rgba(6, 12, 21, 0.92) 100%);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
 }
 
-.brand-icon {
-  display: inline-block;
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 30px;
-  box-shadow:
-    0 0 40px rgba(0, 212, 255, 0.4),
-    0 0 80px rgba(0, 212, 255, 0.2),
-    inset 0 0 40px rgba(255, 255, 255, 0.1);
-  animation: pulse-glow 3s ease-in-out infinite;
-  color: #fff;
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow:
-      0 0 40px rgba(0, 212, 255, 0.4),
-      0 0 80px rgba(0, 212, 255, 0.2),
-      inset 0 0 40px rgba(255, 255, 255, 0.1);
-  }
-  50% {
-    box-shadow:
-      0 0 60px rgba(0, 212, 255, 0.6),
-      0 0 120px rgba(0, 212, 255, 0.3),
-      inset 0 0 60px rgba(255, 255, 255, 0.2);
-  }
-}
-
-.brand-title {
-  font-size: 48px;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 10px 0;
-  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-  letter-spacing: 2px;
-}
-
-.brand-subtitle {
-  font-size: 16px;
-  color: #00d4ff;
-  letter-spacing: 4px;
-  margin: 0 0 20px 0;
-  font-weight: 500;
-}
-
-.brand-divider {
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
-  margin: 20px auto;
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-}
-
-.brand-desc {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-  line-height: 1.6;
-}
-
-/* 特性区域 */
-.features-section {
+.auth-hero {
+  padding: 36px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  justify-content: space-between;
 }
 
-.feature-item {
-  display: flex;
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(105, 243, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(105, 243, 255, 0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+  opacity: 0.36;
+  animation: grid-shift 18s linear infinite;
+}
+
+.hero-rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  border: 1px solid rgba(105, 243, 255, 0.14);
+  border-radius: 50%;
+}
+
+.ring-a {
+  width: 320px;
+  height: 320px;
+  top: -80px;
+  right: -40px;
+}
+
+.ring-b {
+  width: 220px;
+  height: 220px;
+  bottom: -60px;
+  left: 12%;
+}
+
+.hero-topline,
+.hero-copy,
+.hero-metrics,
+.feature-list {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-topline {
+  display: inline-flex;
   align-items: center;
-  gap: 15px;
-  padding: 20px;
-  background: rgba(0, 212, 255, 0.05);
-  border-radius: 12px;
-  border: 1px solid rgba(0, 212, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 16px;
-  transition: all 0.3s ease;
+  gap: 10px;
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 0.26em;
 }
 
-.feature-item:hover {
-  background: rgba(0, 212, 255, 0.1);
-  border-color: rgba(0, 212, 255, 0.3);
-  transform: translateX(10px);
+.hero-copy {
+  max-width: 680px;
+  margin-top: 30px;
+}
+
+.hero-copy h1 {
+  margin: 0 0 18px;
+  font-size: clamp(38px, 5vw, 68px);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  color: var(--text-primary);
+}
+
+.hero-copy p {
+  max-width: 620px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(105, 243, 255, 0.1);
+  background: rgba(7, 16, 27, 0.58);
+}
+
+.metric-card strong {
+  font-size: 26px;
+  color: var(--text-primary);
+}
+
+.metric-card span {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.feature-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(105, 243, 255, 0.1);
+  background: rgba(7, 16, 27, 0.54);
 }
 
 .feature-icon {
+  color: var(--accent);
   font-size: 24px;
-  color: #00d4ff;
 }
 
-/* 右侧面板 */
-.right-panel {
-  width: 500px;
+.feature-copy strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.feature-copy p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.auth-panel {
+  padding: 36px 32px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  background: rgba(15, 23, 41, 0.95);
-  backdrop-filter: blur(20px);
-  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
-  position: relative;
-  z-index: 2;
-  border-left: 1px solid rgba(0, 212, 255, 0.2);
 }
 
-/* 登录框 */
-.login-box {
-  width: 100%;
-  max-width: 400px;
-  padding: 40px;
+.panel-header {
+  margin-bottom: 28px;
 }
 
-.login-header {
-  text-align: center;
-  margin-bottom: 40px;
+.panel-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(105, 243, 255, 0.16);
+  background: rgba(105, 243, 255, 0.08);
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: 0.18em;
 }
 
-.login-header h2 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #fff;
-  margin: 0 0 10px 0;
-  text-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
+.panel-header h2 {
+  margin: 18px 0 10px;
+  font-size: 34px;
+  line-height: 1.05;
+  color: var(--text-primary);
 }
 
-.login-header p {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0;
+.panel-header p {
+  color: var(--text-secondary);
+  line-height: 1.8;
 }
 
-/* 表单样式 */
-.login-form {
-  margin-top: 24px;
+.auth-alert {
+  margin-bottom: 20px;
+}
+
+.auth-form {
+  margin-top: 8px;
 }
 
 .input-icon {
-  color: #00d4ff;
+  color: var(--accent);
 }
 
 .captcha-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(184px, 208px);
   gap: 12px;
   align-items: center;
 }
 
 .captcha-wrapper {
-  position: relative;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
 }
 
 .captcha-img {
-  width: 120px;
-  height: 40px;
-  cursor: pointer;
-  border-radius: 8px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s;
   display: block;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.captcha-img:hover {
-  border-color: #00d4ff;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 52px;
+  border-radius: 16px;
+  border: 1px solid rgba(105, 243, 255, 0.16);
+  background: rgba(7, 16, 27, 0.9);
+  object-fit: cover;
 }
 
 .captcha-refresh {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 32px;
-  height: 32px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 50%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 14px;
+  background: rgba(5, 13, 21, 0.84);
+  border: 1px solid rgba(105, 243, 255, 0.18);
+  color: var(--accent);
   cursor: pointer;
-  opacity: 0;
-  transition: all 0.3s;
+  flex-shrink: 0;
 }
 
-.captcha-wrapper:hover .captcha-refresh {
-  opacity: 1;
-}
-
-.captcha-refresh:hover {
-  background: rgba(0, 212, 255, 0.8);
-  transform: translate(-50%, -50%) rotate(180deg);
-}
-
-/* 登录按钮 */
-.login-btn {
-  height: 48px;
+.auth-submit {
+  height: 50px;
   font-size: 16px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-  transition: all 0.3s;
+  font-weight: 700;
+  letter-spacing: 0.18em;
 }
 
-.login-btn:hover {
-  background: linear-gradient(135deg, #00bbff 0%, #0088ff 100%);
-  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
-  transform: translateY(-2px);
+.panel-footer {
+  margin-top: 8px;
 }
 
-.login-btn:active {
-  transform: translateY(0);
+.footer-link-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
 }
 
-/* 表单底部 */
-.form-footer {
-  margin-top: 24px;
-}
-
-.footer-links {
-  text-align: center;
-}
-
-.register-link {
+.switch-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #00d4ff;
+  color: var(--accent);
   font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-decoration: none;
 }
 
-.register-link:hover {
-  color: #0099ff;
-  text-decoration: underline;
-}
-
-/* 安全提示 */
-.security-notice {
-  margin-top: 30px;
-  padding: 12px 16px;
-  background: rgba(255, 251, 230, 0.1);
-  border: 1px solid rgba(255, 229, 143, 0.3);
-  border-radius: 8px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
+.notice-card {
   display: flex;
-  align-items: center;
-  line-height: 1.5;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 200, 87, 0.14);
+  background: rgba(255, 200, 87, 0.08);
+  color: #ffe6ad;
+  line-height: 1.75;
 }
 
-/* 输入框样式优化 */
-:deep(.ant-input-affix-wrapper),
-:deep(.ant-input),
-:deep(.ant-input-password) {
-  border-radius: 8px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  transition: all 0.3s;
+:deep(.ant-form-item) {
+  margin-bottom: 18px;
 }
 
-:deep(.ant-input::placeholder) {
-  color: rgba(255, 255, 255, 0.4);
+:deep(.ant-alert) {
+  border-radius: 18px;
 }
 
-:deep(.ant-input-affix-wrapper:focus),
-:deep(.ant-input-affix-wrapper-focused),
-:deep(.ant-input:focus),
-:deep(.ant-input-password:focus) {
-  border-color: #00d4ff;
-  background: rgba(0, 212, 255, 0.05);
-  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+@keyframes grid-shift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(46px);
+  }
 }
 
-:deep(.ant-input-affix-wrapper:hover),
-:deep(.ant-input:hover) {
-  border-color: rgba(0, 212, 255, 0.5);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-:deep(.ant-input-password-icon) {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-:deep(.ant-input-password-icon:hover) {
-  color: #00d4ff;
-}
-
-/* 响应式设计 */
-@media (max-width: 1024px) {
-  .left-panel {
-    display: none;
+@media (max-width: 1180px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
   }
 
-  .right-panel {
-    width: 100%;
+  .feature-list {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 768px) {
-  .login-box {
-    padding: 30px 20px;
+  .auth-page {
+    padding: 14px;
   }
 
-  .login-header h2 {
-    font-size: 24px;
+  .auth-shell {
+    min-height: calc(100vh - 28px);
+  }
+
+  .auth-hero,
+  .auth-panel {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .hero-copy h1 {
+    font-size: 38px;
+  }
+
+  .hero-metrics,
+  .feature-list,
+  .captcha-row {
+    grid-template-columns: 1fr;
   }
 }
 </style>

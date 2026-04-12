@@ -1,14 +1,14 @@
 <template>
   <vuln-template
-    title="X-Forwarded-For伪造"
-    subtitle="HTTP Header Forgery"
+    title="代理头伪造"
+    subtitle="请求头伪造"
     level="低危"
     :icon="SwapOutlined"
     moduleKey="xff"
   >
     <template #description>
       <a-typography-paragraph>
-        <strong>X-Forwarded-For</strong> 是HTTP请求头,用于标识客户端的真实IP地址。但这个头可以被伪造。
+        <strong>代理转发来源头</strong> 是一种常见请求头，用于标识客户端的真实 IP 地址，但这个头本身可以被伪造。
       </a-typography-paragraph>
       <a-typography-paragraph>
         XFF伪造的危害：
@@ -59,7 +59,7 @@
 
     <template #test-form>
       <div class="restricted-resource-container">
-        <a-card title="🔒 受限资源访问" :bordered="false" style="margin-bottom: 24px;">
+        <a-card title="受限资源访问" :bordered="false" style="margin-bottom: 24px;">
           <a-typography-paragraph>
             这是一个受IP限制的敏感资源，只有特定IP地址（10.0.0.1）才能访问。系统会检查您的IP地址来判断是否允许访问。
           </a-typography-paragraph>
@@ -83,7 +83,7 @@
               placeholder="例如：10.0.0.1"
               prefix="🌐"
             />
-            <div style="margin-top: 8px; color: #8c8c8c; font-size: 12px;">
+            <div class="lab-note">
               提示：如果您通过代理访问，可以设置 X-Forwarded-For 头来指定您的真实IP
             </div>
           </a-form-item>
@@ -112,8 +112,8 @@
 
     <template #result v-if="result">
       <div class="result-content">
-        <div style="background: #fff; padding: 16px; border-radius: 4px; border-left: 4px solid #1890ff;">
-          <pre style="margin: 0; white-space: pre-wrap; color: #1890ff;">{{ result }}</pre>
+        <div class="lab-result-box lab-result-box--accent">
+          <pre>{{ result }}</pre>
         </div>
         <a-alert
           v-if="result.includes('访问成功')"

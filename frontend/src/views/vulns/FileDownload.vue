@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="任意文件下载"
-    subtitle="File Download"
+    subtitle="任意文件读取与下载"
     level="中危"
     :icon="CloudDownloadOutlined"
     moduleKey="file_download"

@@ -1,14 +1,14 @@
 <template>
   <vuln-template
     title="DOM型 XSS 漏洞"
-    subtitle="Cross-Site Scripting - DOM Type"
+    subtitle="DOM 型脚本注入"
     level="高危"
     :icon="BugOutlined"
     moduleKey="xss_dom"
   >
     <template #description>
       <a-typography-paragraph>
-        <strong>DOM型XSS (DOM-based XSS)</strong> 是一种完全在客户端发生的XSS攻击类型，恶意脚本通过修改DOM环境来执行。
+        <strong>DOM 型脚本注入</strong> 是一种完全在客户端发生的脚本注入类型，恶意脚本通过修改页面环境来执行。
       </a-typography-paragraph>
       <a-typography-paragraph>
         DOM型XSS的特点：

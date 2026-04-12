@@ -1,7 +1,7 @@
 <template>
   <vuln-template
     title="企业网络诊断平台"
-    subtitle="Network Diagnostic Tool - RCE via ProcessBuilder"
+    subtitle="进程构造命令执行"
     level="严重"
     :icon="ThunderboltOutlined"
     moduleKey="rce_processbuilder"

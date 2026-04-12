@@ -1,7 +1,7 @@
 <template>
   <vuln-template
-    title="企业数据交换平台 - SAXBuilder"
-    subtitle="XML External Entity Injection"
+    title="企业数据交换平台 - SAX 构造器"
+    subtitle="外部实体注入"
     level="高危"
     :icon="DatabaseOutlined"
     moduleKey="xxe_saxbuilder"
