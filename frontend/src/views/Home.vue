@@ -327,7 +327,7 @@ const systemSignals = computed(() => [
   { label: '前端框架', value: 'Vue 3 + Vite' },
   { label: '后端框架', value: 'Spring Boot' },
   { label: '实验版本', value: 'v2.0.0' },
-  { label: '运行模式', value: '暗色工作台' },
+  { label: '运行模式', value: '浅色工作台' },
   { label: '访问状态', value: '已登录' }
 ])
 </script>
@@ -347,9 +347,9 @@ const systemSignals = computed(() => [
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(105, 243, 255, 0.14);
+  border: 1px solid var(--panel-border);
   background:
-    linear-gradient(180deg, rgba(13, 24, 38, 0.82) 0%, rgba(5, 11, 20, 0.88) 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 247, 254, 0.9) 100%);
   box-shadow: var(--panel-shadow);
   backdrop-filter: blur(18px);
 }
@@ -359,8 +359,8 @@ const systemSignals = computed(() => [
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(105, 243, 255, 0.04), transparent 38%),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.02), transparent 24%);
+    linear-gradient(135deg, rgba(47, 127, 214, 0.04), transparent 38%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.3), transparent 24%);
   pointer-events: none;
 }
 
@@ -397,7 +397,7 @@ const systemSignals = computed(() => [
   width: 260px;
   height: 260px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(105, 243, 255, 0.24), transparent 68%);
+  background: radial-gradient(circle, rgba(145, 202, 255, 0.36), transparent 68%);
   filter: blur(8px);
   animation: pulse 6s ease-in-out infinite;
 }
@@ -433,8 +433,8 @@ const systemSignals = computed(() => [
   align-items: center;
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(105, 243, 255, 0.18);
-  background: rgba(105, 243, 255, 0.08);
+  border: 1px solid rgba(47, 127, 214, 0.18);
+  background: rgba(47, 127, 214, 0.08);
   color: var(--accent);
   font-size: 12px;
   white-space: nowrap;
@@ -455,8 +455,8 @@ const systemSignals = computed(() => [
   gap: 10px;
   padding: 10px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(105, 243, 255, 0.18);
-  background: rgba(105, 243, 255, 0.08);
+  border: 1px solid rgba(47, 127, 214, 0.18);
+  background: rgba(47, 127, 214, 0.08);
   color: var(--accent);
   margin-bottom: 18px;
   font-size: 13px;
@@ -494,8 +494,8 @@ const systemSignals = computed(() => [
 .metric-card {
   padding: 18px 18px 16px;
   border-radius: var(--radius-md);
-  background: rgba(5, 15, 26, 0.54);
-  border: 1px solid rgba(105, 243, 255, 0.1);
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(24, 75, 120, 0.1);
 }
 
 .metric-value {
@@ -527,8 +527,8 @@ const systemSignals = computed(() => [
   gap: 14px;
   padding: 16px;
   border-radius: var(--radius-md);
-  background: rgba(6, 15, 25, 0.7);
-  border: 1px solid rgba(105, 243, 255, 0.08);
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(24, 75, 120, 0.1);
 }
 
 .telemetry-icon,
@@ -541,7 +541,7 @@ const systemSignals = computed(() => [
   width: 46px;
   height: 46px;
   border-radius: 16px;
-  background: rgba(105, 243, 255, 0.08);
+  background: rgba(47, 127, 214, 0.08);
   color: var(--accent);
   font-size: 20px;
 }
@@ -587,7 +587,7 @@ const systemSignals = computed(() => [
   width: 100%;
   height: 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(47, 127, 214, 0.08);
   overflow: hidden;
 }
 
@@ -595,7 +595,7 @@ const systemSignals = computed(() => [
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, rgba(105, 243, 255, 0.4), rgba(105, 243, 255, 0.9));
+  background: linear-gradient(90deg, rgba(47, 127, 214, 0.45), rgba(47, 127, 214, 0.85));
 }
 
 .module-grid {
@@ -611,8 +611,8 @@ const systemSignals = computed(() => [
   gap: 14px;
   padding: 18px;
   border-radius: 24px;
-  border: 1px solid rgba(105, 243, 255, 0.1);
-  background: rgba(6, 15, 25, 0.66);
+  border: 1px solid rgba(24, 75, 120, 0.1);
+  background: rgba(255, 255, 255, 0.72);
   color: inherit;
   text-align: left;
   cursor: pointer;
@@ -621,8 +621,8 @@ const systemSignals = computed(() => [
 
 .module-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(105, 243, 255, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.24);
+  border-color: rgba(47, 127, 214, 0.3);
+  box-shadow: 0 16px 32px rgba(31, 56, 88, 0.14);
 }
 
 .module-top {
@@ -639,7 +639,7 @@ const systemSignals = computed(() => [
   width: 52px;
   height: 52px;
   border-radius: 18px;
-  background: rgba(105, 243, 255, 0.08);
+  background: rgba(47, 127, 214, 0.08);
   color: var(--accent);
   font-size: 24px;
 }
@@ -652,27 +652,27 @@ const systemSignals = computed(() => [
 }
 
 .risk-critical {
-  color: #ffc7d3;
-  background: rgba(255, 107, 143, 0.12);
-  border-color: rgba(255, 107, 143, 0.18);
+  color: #cf1322;
+  background: #fff1f0;
+  border-color: #ffa39e;
 }
 
 .risk-high {
-  color: #ffd4df;
-  background: rgba(255, 107, 143, 0.08);
-  border-color: rgba(255, 107, 143, 0.14);
+  color: #cf1322;
+  background: #fff1f0;
+  border-color: #ffa39e;
 }
 
 .risk-medium {
-  color: #ffe7ba;
-  background: rgba(255, 200, 87, 0.1);
-  border-color: rgba(255, 200, 87, 0.16);
+  color: #ad6800;
+  background: #fff7e6;
+  border-color: #ffd591;
 }
 
 .risk-default {
   color: var(--text-secondary);
-  background: rgba(105, 243, 255, 0.08);
-  border-color: rgba(105, 243, 255, 0.12);
+  background: rgba(47, 127, 214, 0.08);
+  border-color: rgba(47, 127, 214, 0.12);
 }
 
 .module-title {
@@ -731,9 +731,9 @@ const systemSignals = computed(() => [
   gap: 10px;
   padding: 16px;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 200, 87, 0.14);
-  background: rgba(255, 200, 87, 0.08);
-  color: #ffe6ad;
+  border: 1px solid #ffd591;
+  background: #fff7e6;
+  color: #ad6800;
   line-height: 1.7;
 }
 

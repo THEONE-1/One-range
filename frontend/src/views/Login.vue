@@ -182,7 +182,7 @@ const formState = reactive({
 const heroMetrics = [
   { label: '漏洞场景', value: '26+' },
   { label: '学习视图', value: '矩阵化' },
-  { label: '交互高亮', value: '霓虹青' }
+  { label: '交互高亮', value: '清爽蓝' }
 ]
 
 const features = [
@@ -198,7 +198,7 @@ const features = [
   },
   {
     title: '统一安全界面',
-    description: '首页、详情页和学习流程共用暗色未来感工作台。',
+    description: '首页、详情页和学习流程共用浅色学习工作台。',
     icon: SafetyOutlined
   }
 ]
@@ -270,9 +270,9 @@ const goToRegister = () => {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 16% 20%, rgba(105, 243, 255, 0.14), transparent 22%),
-    radial-gradient(circle at 82% 18%, rgba(52, 110, 255, 0.14), transparent 20%),
-    radial-gradient(circle at 74% 78%, rgba(105, 243, 255, 0.08), transparent 18%);
+    radial-gradient(circle at 16% 20%, rgba(145, 202, 255, 0.26), transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(47, 127, 214, 0.12), transparent 22%),
+    radial-gradient(circle at 74% 78%, rgba(145, 202, 255, 0.18), transparent 20%);
   pointer-events: none;
 }
 
@@ -292,10 +292,10 @@ const goToRegister = () => {
   position: relative;
   overflow: hidden;
   border-radius: 32px;
-  border: 1px solid rgba(105, 243, 255, 0.14);
-  background: linear-gradient(180deg, rgba(12, 24, 38, 0.84) 0%, rgba(6, 12, 21, 0.92) 100%);
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 247, 254, 0.9) 100%);
   backdrop-filter: blur(18px);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
+  box-shadow: var(--panel-shadow);
 }
 
 .auth-hero {
@@ -309,8 +309,8 @@ const goToRegister = () => {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(105, 243, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(105, 243, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(47, 127, 214, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 127, 214, 0.05) 1px, transparent 1px);
   background-size: 46px 46px;
   opacity: 0.36;
   animation: grid-shift 18s linear infinite;
@@ -324,7 +324,7 @@ const goToRegister = () => {
 
 .ring {
   position: absolute;
-  border: 1px solid rgba(105, 243, 255, 0.14);
+  border: 1px solid rgba(47, 127, 214, 0.14);
   border-radius: 50%;
 }
 
@@ -392,8 +392,8 @@ const goToRegister = () => {
   gap: 8px;
   padding: 18px;
   border-radius: 22px;
-  border: 1px solid rgba(105, 243, 255, 0.1);
-  background: rgba(7, 16, 27, 0.58);
+  border: 1px solid rgba(24, 75, 120, 0.1);
+  background: rgba(255, 255, 255, 0.68);
 }
 
 .metric-card strong {
@@ -419,8 +419,8 @@ const goToRegister = () => {
   gap: 18px;
   padding: 20px;
   border-radius: 24px;
-  border: 1px solid rgba(105, 243, 255, 0.1);
-  background: rgba(7, 16, 27, 0.54);
+  border: 1px solid rgba(24, 75, 120, 0.1);
+  background: rgba(255, 255, 255, 0.66);
 }
 
 .feature-icon {
@@ -456,8 +456,8 @@ const goToRegister = () => {
   align-items: center;
   padding: 8px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(105, 243, 255, 0.16);
-  background: rgba(105, 243, 255, 0.08);
+  border: 1px solid rgba(47, 127, 214, 0.18);
+  background: rgba(47, 127, 214, 0.08);
   color: var(--accent);
   font-size: 12px;
   letter-spacing: 0.18em;
@@ -508,8 +508,8 @@ const goToRegister = () => {
   width: 100%;
   height: 52px;
   border-radius: 16px;
-  border: 1px solid rgba(105, 243, 255, 0.16);
-  background: rgba(7, 16, 27, 0.9);
+  border: 1px solid rgba(24, 75, 120, 0.16);
+  background: #ffffff;
   object-fit: cover;
 }
 
@@ -521,8 +521,8 @@ const goToRegister = () => {
   height: 44px;
   padding: 0;
   border-radius: 14px;
-  background: rgba(5, 13, 21, 0.84);
-  border: 1px solid rgba(105, 243, 255, 0.18);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(47, 127, 214, 0.18);
   color: var(--accent);
   cursor: pointer;
   flex-shrink: 0;
@@ -559,9 +559,9 @@ const goToRegister = () => {
   gap: 10px;
   padding: 16px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 200, 87, 0.14);
-  background: rgba(255, 200, 87, 0.08);
-  color: #ffe6ad;
+  border: 1px solid #ffd591;
+  background: #fff7e6;
+  color: #ad6800;
   line-height: 1.75;
 }
 

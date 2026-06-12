@@ -17,7 +17,7 @@
             <a-menu
               v-model:selectedKeys="selectedKeys"
               mode="horizontal"
-              theme="dark"
+              theme="light"
               class="header-menu"
               @click="handleMenuClick"
             >
@@ -346,11 +346,11 @@ onMounted(() => {
   gap: 20px;
   padding: 14px 18px;
   border-radius: 26px;
-  border: 1px solid rgba(105, 243, 255, 0.16);
+  border: 1px solid rgba(24, 75, 120, 0.14);
   background:
-    linear-gradient(135deg, rgba(12, 23, 36, 0.92) 0%, rgba(6, 12, 21, 0.82) 100%);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 247, 255, 0.9) 100%);
   backdrop-filter: blur(18px);
-  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 16px 40px rgba(31, 56, 88, 0.12);
 }
 
 .header-left {
@@ -367,8 +367,8 @@ onMounted(() => {
   gap: 14px;
   padding: 10px 14px;
   border-radius: 20px;
-  background: rgba(105, 243, 255, 0.08);
-  border: 1px solid rgba(105, 243, 255, 0.14);
+  background: rgba(47, 127, 214, 0.08);
+  border: 1px solid rgba(47, 127, 214, 0.14);
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -380,10 +380,10 @@ onMounted(() => {
   width: 44px;
   height: 44px;
   border-radius: 16px;
-  background: rgba(105, 243, 255, 0.14);
+  background: rgba(47, 127, 214, 0.1);
   color: var(--accent);
   font-size: 22px;
-  box-shadow: inset 0 0 0 1px rgba(105, 243, 255, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(47, 127, 214, 0.14);
 }
 
 .brand-copy {
@@ -434,9 +434,9 @@ onMounted(() => {
   gap: 8px;
   padding: 10px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(56, 242, 180, 0.2);
-  background: rgba(56, 242, 180, 0.08);
-  color: rgba(196, 255, 232, 0.9);
+  border: 1px solid rgba(35, 120, 4, 0.16);
+  background: rgba(246, 255, 237, 0.92);
+  color: #237804;
   font-size: 13px;
   letter-spacing: 0.04em;
 }
@@ -446,7 +446,7 @@ onMounted(() => {
   height: 8px;
   border-radius: 50%;
   background: var(--success);
-  box-shadow: 0 0 14px rgba(56, 242, 180, 0.9);
+  box-shadow: 0 0 10px rgba(35, 120, 4, 0.28);
 }
 
 .header-icon {
@@ -456,8 +456,8 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(105, 243, 255, 0.14);
-  background: rgba(105, 243, 255, 0.06);
+  border: 1px solid rgba(47, 127, 214, 0.14);
+  background: rgba(47, 127, 214, 0.06);
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.25s ease;
@@ -465,15 +465,15 @@ onMounted(() => {
 
 .header-icon:hover {
   color: var(--accent);
-  border-color: rgba(105, 243, 255, 0.4);
+  border-color: rgba(47, 127, 214, 0.36);
   transform: translateY(-1px);
 }
 
 .user-avatar {
   cursor: pointer;
-  background: linear-gradient(135deg, rgba(105, 243, 255, 0.88), rgba(50, 212, 255, 0.68)) !important;
-  color: #03131c !important;
-  box-shadow: 0 12px 24px rgba(50, 212, 255, 0.18);
+  background: linear-gradient(135deg, #2f7fd6, #0958d9) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 20px rgba(47, 127, 214, 0.18);
 }
 
 .layout-content {
@@ -516,30 +516,30 @@ onMounted(() => {
   border-bottom: none !important;
 }
 
-:deep(.ant-menu-dark.ant-menu-horizontal > .ant-menu-item),
-:deep(.ant-menu-dark.ant-menu-horizontal > .ant-menu-submenu) {
+:deep(.ant-menu-light.ant-menu-horizontal > .ant-menu-item),
+:deep(.ant-menu-light.ant-menu-horizontal > .ant-menu-submenu) {
   color: var(--text-secondary);
   border-radius: 999px;
   margin-inline: 4px;
   padding-inline: 14px;
 }
 
-:deep(.ant-menu-dark.ant-menu-horizontal > .ant-menu-item-selected),
-:deep(.ant-menu-dark.ant-menu-horizontal > .ant-menu-submenu-selected) {
-  background: rgba(105, 243, 255, 0.12) !important;
+:deep(.ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected),
+:deep(.ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected) {
+  background: rgba(47, 127, 214, 0.1) !important;
   color: var(--accent) !important;
 }
 
-:deep(.ant-menu-dark.ant-menu-horizontal > .ant-menu-item:hover),
-:deep(.ant-menu-dark.ant-menu-horizontal > .ant-menu-submenu:hover),
-:deep(.ant-menu-dark.ant-menu-horizontal > .ant-menu-item-active),
-:deep(.ant-menu-dark.ant-menu-horizontal > .ant-menu-submenu-active) {
-  background: rgba(105, 243, 255, 0.08) !important;
+:deep(.ant-menu-light.ant-menu-horizontal > .ant-menu-item:hover),
+:deep(.ant-menu-light.ant-menu-horizontal > .ant-menu-submenu:hover),
+:deep(.ant-menu-light.ant-menu-horizontal > .ant-menu-item-active),
+:deep(.ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-active) {
+  background: rgba(47, 127, 214, 0.07) !important;
   color: var(--text-primary) !important;
 }
 
-:deep(.ant-menu-dark .ant-menu-submenu-title:hover),
-:deep(.ant-menu-dark .ant-menu-item:hover) {
+:deep(.ant-menu-light .ant-menu-submenu-title:hover),
+:deep(.ant-menu-light .ant-menu-item:hover) {
   color: var(--text-primary) !important;
 }
 
@@ -547,15 +547,15 @@ onMounted(() => {
   top: 84px !important;
 }
 
-:deep(.ant-menu-dark.ant-menu-submenu-popup > .ant-menu) {
-  background: rgba(8, 18, 30, 0.96) !important;
-  border: 1px solid rgba(105, 243, 255, 0.14);
+:deep(.ant-menu-light.ant-menu-submenu-popup > .ant-menu) {
+  background: #ffffff !important;
+  border: 1px solid rgba(24, 75, 120, 0.14);
   border-radius: 18px;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 18px 40px rgba(31, 56, 88, 0.14);
 }
 
-:deep(.ant-menu-dark.ant-menu-submenu-popup .ant-menu-item-selected) {
-  background: rgba(105, 243, 255, 0.12) !important;
+:deep(.ant-menu-light.ant-menu-submenu-popup .ant-menu-item-selected) {
+  background: rgba(47, 127, 214, 0.1) !important;
 }
 
 @media (max-width: 1180px) {

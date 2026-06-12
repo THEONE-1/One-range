@@ -312,9 +312,9 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   border-radius: 28px;
-  border: 1px solid rgba(105, 243, 255, 0.12);
-  background: linear-gradient(180deg, rgba(12, 24, 38, 0.84) 0%, rgba(6, 12, 21, 0.92) 100%);
-  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 247, 254, 0.9) 100%);
+  box-shadow: var(--panel-shadow);
   backdrop-filter: blur(18px);
 }
 
@@ -342,8 +342,8 @@ onMounted(() => {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(105, 243, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(105, 243, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(47, 127, 214, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 127, 214, 0.05) 1px, transparent 1px);
   background-size: 44px 44px;
   opacity: 0.34;
 }
@@ -391,8 +391,8 @@ onMounted(() => {
   gap: 16px;
   padding: 20px;
   border-radius: 22px;
-  border: 1px solid rgba(105, 243, 255, 0.1);
-  background: rgba(7, 16, 27, 0.56);
+  border: 1px solid rgba(24, 75, 120, 0.1);
+  background: rgba(255, 255, 255, 0.68);
 }
 
 .metric-icon {
@@ -402,7 +402,7 @@ onMounted(() => {
   width: 50px;
   height: 50px;
   border-radius: 18px;
-  background: rgba(105, 243, 255, 0.08);
+  background: rgba(47, 127, 214, 0.08);
   color: var(--accent);
   font-size: 22px;
 }
@@ -444,8 +444,8 @@ onMounted(() => {
   justify-content: center;
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(105, 243, 255, 0.16);
-  background: rgba(105, 243, 255, 0.08);
+  border: 1px solid rgba(47, 127, 214, 0.18);
+  background: rgba(47, 127, 214, 0.08);
   color: var(--accent);
   font-size: 12px;
   white-space: nowrap;
@@ -465,8 +465,8 @@ onMounted(() => {
   gap: 14px;
   padding: 18px;
   border-radius: 22px;
-  border: 1px solid rgba(105, 243, 255, 0.08);
-  background: rgba(7, 16, 27, 0.54);
+  border: 1px solid rgba(24, 75, 120, 0.1);
+  background: rgba(255, 255, 255, 0.66);
 }
 
 .status-item {
@@ -527,9 +527,9 @@ onMounted(() => {
   margin-top: 18px;
   padding: 16px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 200, 87, 0.14);
-  background: rgba(255, 200, 87, 0.08);
-  color: #ffe6ad;
+  border: 1px solid #ffd591;
+  background: #fff7e6;
+  color: #ad6800;
   line-height: 1.8;
 }
 
@@ -541,12 +541,12 @@ onMounted(() => {
   height: 42px;
   border-radius: 14px;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(47, 127, 214, 0.06);
   color: var(--text-muted);
 }
 
 .timeline-dot.completed {
-  background: rgba(56, 242, 180, 0.12);
+  background: rgba(246, 255, 237, 0.9);
   color: var(--success);
 }
 

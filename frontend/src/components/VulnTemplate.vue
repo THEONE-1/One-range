@@ -262,11 +262,11 @@ onMounted(() => {
   overflow: hidden;
   padding: 34px;
   border-radius: 28px;
-  border: 1px solid rgba(105, 243, 255, 0.16);
+  border: 1px solid var(--panel-border);
   background:
-    radial-gradient(circle at top right, rgba(105, 243, 255, 0.18), transparent 28%),
-    linear-gradient(135deg, rgba(16, 28, 44, 0.92) 0%, rgba(4, 10, 18, 0.92) 100%);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    radial-gradient(circle at top right, rgba(145, 202, 255, 0.28), transparent 30%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 247, 255, 0.92) 100%);
+  box-shadow: var(--panel-shadow);
 }
 
 .vuln-header::before {
@@ -296,8 +296,8 @@ onMounted(() => {
   width: 84px;
   height: 84px;
   border-radius: 24px;
-  border: 1px solid rgba(105, 243, 255, 0.16);
-  background: rgba(105, 243, 255, 0.08);
+  border: 1px solid rgba(47, 127, 214, 0.16);
+  background: rgba(47, 127, 214, 0.08);
   backdrop-filter: blur(16px);
   color: var(--accent);
   font-size: 38px;
@@ -352,22 +352,22 @@ onMounted(() => {
 .result-card {
   overflow: hidden;
   border-radius: 24px;
-  border: 1px solid rgba(105, 243, 255, 0.12);
-  background: linear-gradient(180deg, rgba(11, 24, 38, 0.84) 0%, rgba(6, 12, 21, 0.92) 100%);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 247, 254, 0.9) 100%);
+  box-shadow: var(--panel-shadow);
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .test-card:hover,
 .result-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(105, 243, 255, 0.24);
+  border-color: rgba(47, 127, 214, 0.24);
 }
 
 .card-header {
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(105, 243, 255, 0.1);
-  background: rgba(105, 243, 255, 0.04);
+  border-bottom: 1px solid rgba(24, 75, 120, 0.1);
+  background: rgba(47, 127, 214, 0.04);
 }
 
 .card-title {
@@ -395,25 +395,25 @@ onMounted(() => {
 .help-collapse :deep(.ant-collapse-item) {
   margin-bottom: 16px;
   overflow: hidden;
-  border: 1px solid rgba(105, 243, 255, 0.1);
+  border: 1px solid var(--panel-border);
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(11, 24, 38, 0.82) 0%, rgba(6, 12, 21, 0.9) 100%);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 247, 254, 0.9) 100%);
+  box-shadow: var(--panel-shadow);
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .help-collapse :deep(.ant-collapse-item:hover) {
   transform: translateY(-2px);
-  border-color: rgba(105, 243, 255, 0.22);
+  border-color: rgba(47, 127, 214, 0.22);
 }
 
 .help-collapse :deep(.ant-collapse-header) {
   padding: 20px 24px;
-  background: rgba(105, 243, 255, 0.05);
+  background: rgba(47, 127, 214, 0.05);
 }
 
 .help-collapse :deep(.ant-collapse-content) {
-  border-top: 1px solid rgba(105, 243, 255, 0.08);
+  border-top: 1px solid rgba(24, 75, 120, 0.08);
   background: transparent;
 }
 
@@ -446,9 +446,9 @@ onMounted(() => {
   justify-content: center;
   padding: 7px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(105, 243, 255, 0.28);
-  background: rgba(105, 243, 255, 0.14);
-  color: #d7fdff;
+  border: 1px solid rgba(47, 127, 214, 0.22);
+  background: rgba(47, 127, 214, 0.1);
+  color: var(--accent);
   font-size: 12px;
   font-weight: 600;
 }
@@ -456,17 +456,17 @@ onMounted(() => {
 .collapse-content {
   font-size: 14px;
   line-height: 1.85;
-  color: #d8edf8;
+  color: var(--text-secondary);
 }
 
 :deep(.result-content) {
   max-height: 500px;
   overflow-y: auto;
   padding: 20px;
-  border: 1px solid rgba(105, 243, 255, 0.1);
+  border: 1px solid rgba(24, 75, 120, 0.12);
   border-radius: 18px;
-  background: rgba(4, 12, 20, 0.88);
-  color: #cffaff;
+  background: #f7fbff;
+  color: var(--text-primary);
   font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
 }
 
@@ -486,19 +486,19 @@ onMounted(() => {
 
 .hint-collapse :deep(.ant-collapse-item) {
   overflow: hidden;
-  border: 1px solid rgba(105, 243, 255, 0.28);
+  border: 1px solid rgba(47, 127, 214, 0.22);
   border-radius: 18px;
-  background: rgba(105, 243, 255, 0.1);
+  background: rgba(47, 127, 214, 0.08);
 }
 
 .hint-collapse :deep(.ant-collapse-header) {
   padding: 14px 16px;
-  background: rgba(105, 243, 255, 0.05);
+  background: rgba(47, 127, 214, 0.05);
 }
 
 .hint-collapse :deep(.ant-collapse-content) {
-  border-top: 1px solid rgba(105, 243, 255, 0.22);
-  background: rgba(6, 15, 25, 0.82);
+  border-top: 1px solid rgba(47, 127, 214, 0.16);
+  background: rgba(255, 255, 255, 0.78);
 }
 
 .hint-collapse :deep(.ant-collapse-content-box) {
@@ -509,7 +509,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #e7fcff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -518,7 +518,7 @@ onMounted(() => {
 }
 
 .hint-content {
-  color: #d8edf8;
+  color: var(--text-secondary);
   line-height: 1.85;
 }
 
@@ -531,9 +531,9 @@ onMounted(() => {
   margin: 0 4px 4px 0;
   padding: 3px 8px;
   border-radius: 10px;
-  background: rgba(105, 243, 255, 0.12);
-  border: 1px solid rgba(105, 243, 255, 0.18);
-  color: #effcff;
+  background: rgba(47, 127, 214, 0.08);
+  border: 1px solid rgba(47, 127, 214, 0.16);
+  color: var(--accent);
   font-size: 12px;
 }
 
@@ -542,7 +542,7 @@ onMounted(() => {
 .card-body :deep(ol),
 .collapse-content :deep(ol) {
   padding-left: 20px;
-  color: #d8edf8;
+  color: var(--text-secondary);
   line-height: 1.9;
 }
 
@@ -564,15 +564,15 @@ onMounted(() => {
 :deep(.collapse-content li),
 :deep(.hint-content p),
 :deep(.hint-content li) {
-  color: #d8edf8;
+  color: var(--text-secondary);
 }
 
 .lab-surface {
   padding: 24px;
   border-radius: 20px;
-  border: 1px solid rgba(105, 243, 255, 0.12);
-  background: linear-gradient(180deg, rgba(8, 18, 30, 0.9) 0%, rgba(5, 11, 20, 0.96) 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(24, 75, 120, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 251, 255, 0.96) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .lab-surface + .lab-surface,
@@ -582,7 +582,7 @@ onMounted(() => {
 }
 
 .lab-surface-muted {
-  background: rgba(7, 16, 27, 0.7);
+  background: rgba(247, 251, 255, 0.86);
 }
 
 .lab-surface-title {
@@ -619,8 +619,8 @@ onMounted(() => {
 .lab-result-box {
   padding: 16px;
   border-radius: 16px;
-  border: 1px solid rgba(105, 243, 255, 0.12);
-  background: rgba(4, 12, 20, 0.92);
+  border: 1px solid rgba(24, 75, 120, 0.12);
+  background: #f7fbff;
 }
 
 .lab-result-box--accent {
@@ -629,7 +629,7 @@ onMounted(() => {
 
 .lab-result-box :deep(pre) {
   margin: 0;
-  color: #bff8ff;
+  color: var(--text-primary);
   white-space: pre-wrap;
 }
 
@@ -643,8 +643,8 @@ onMounted(() => {
 .lab-empty {
   padding: 24px;
   border-radius: 20px;
-  border: 1px dashed rgba(105, 243, 255, 0.16);
-  background: rgba(7, 16, 27, 0.62);
+  border: 1px dashed rgba(47, 127, 214, 0.18);
+  background: rgba(247, 251, 255, 0.86);
   color: var(--text-muted);
   text-align: center;
 }
@@ -668,10 +668,10 @@ onMounted(() => {
   word-break: normal !important;
   tab-size: 4 !important;
   box-sizing: border-box !important;
-  border: 1px solid rgba(105, 243, 255, 0.12) !important;
+  border: 1px solid rgba(24, 75, 120, 0.14) !important;
   border-radius: 14px !important;
-  background: rgba(4, 12, 20, 0.92) !important;
-  color: #cffaff !important;
+  background: #f7fbff !important;
+  color: #1f2d3d !important;
   font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace !important;
   font-size: 13px !important;
   line-height: 1.65 !important;
@@ -720,4 +720,3 @@ onMounted(() => {
   }
 }
 </style>
-

@@ -230,9 +230,9 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   border-radius: 28px;
-  border: 1px solid rgba(105, 243, 255, 0.12);
-  background: linear-gradient(180deg, rgba(12, 24, 38, 0.84) 0%, rgba(6, 12, 21, 0.92) 100%);
-  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 247, 254, 0.9) 100%);
+  box-shadow: var(--panel-shadow);
   backdrop-filter: blur(18px);
 }
 
@@ -255,8 +255,8 @@ onMounted(() => {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(105, 243, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(105, 243, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(47, 127, 214, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 127, 214, 0.05) 1px, transparent 1px);
   background-size: 44px 44px;
   opacity: 0.34;
 }
@@ -267,9 +267,9 @@ onMounted(() => {
   gap: 10px;
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(105, 243, 255, 0.2);
-  background: rgba(105, 243, 255, 0.1);
-  color: #d7fdff;
+  border: 1px solid rgba(47, 127, 214, 0.18);
+  background: rgba(47, 127, 214, 0.08);
+  color: var(--accent);
   font-size: 12px;
   letter-spacing: 0.22em;
 }
@@ -307,8 +307,8 @@ onMounted(() => {
   gap: 16px;
   padding: 20px;
   border-radius: 22px;
-  border: 1px solid rgba(105, 243, 255, 0.1);
-  background: rgba(7, 16, 27, 0.56);
+  border: 1px solid rgba(24, 75, 120, 0.1);
+  background: rgba(255, 255, 255, 0.68);
 }
 
 .metric-icon {
@@ -318,7 +318,7 @@ onMounted(() => {
   width: 50px;
   height: 50px;
   border-radius: 18px;
-  background: rgba(105, 243, 255, 0.08);
+  background: rgba(47, 127, 214, 0.08);
   color: var(--accent);
   font-size: 22px;
 }
@@ -359,9 +359,9 @@ onMounted(() => {
   justify-content: center;
   padding: 9px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(105, 243, 255, 0.26);
-  background: rgba(105, 243, 255, 0.14);
-  color: #e3fdff;
+  border: 1px solid rgba(47, 127, 214, 0.22);
+  background: rgba(47, 127, 214, 0.1);
+  color: var(--accent);
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
@@ -380,8 +380,8 @@ onMounted(() => {
   gap: 16px;
   padding: 16px 18px;
   border-radius: 20px;
-  border: 1px solid rgba(105, 243, 255, 0.08);
-  background: rgba(7, 16, 27, 0.54);
+  border: 1px solid rgba(24, 75, 120, 0.1);
+  background: rgba(255, 255, 255, 0.66);
 }
 
 .insight-item span {
@@ -399,9 +399,9 @@ onMounted(() => {
   margin-top: 18px;
   padding: 16px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 200, 87, 0.14);
-  background: rgba(255, 200, 87, 0.08);
-  color: #ffe6ad;
+  border: 1px solid #ffd591;
+  background: #fff7e6;
+  color: #ad6800;
   line-height: 1.8;
 }
 
@@ -422,7 +422,7 @@ onMounted(() => {
 }
 
 .users-table :deep(.ant-pagination-item-active) {
-  background: rgba(105, 243, 255, 0.16) !important;
+  background: rgba(47, 127, 214, 0.12) !important;
 }
 
 .role-pill {
@@ -437,15 +437,15 @@ onMounted(() => {
 }
 
 .role-pill.admin {
-  background: rgba(255, 107, 143, 0.18);
-  color: #fff0f4;
-  border: 1px solid rgba(255, 107, 143, 0.26);
+  background: #fff1f0;
+  color: #cf1322;
+  border: 1px solid #ffa39e;
 }
 
 .role-pill.user {
-  background: rgba(105, 243, 255, 0.14);
-  color: #dbfdff;
-  border: 1px solid rgba(105, 243, 255, 0.24);
+  background: #e6f4ff;
+  color: #0958d9;
+  border: 1px solid #91caff;
 }
 
 .delete-btn {
